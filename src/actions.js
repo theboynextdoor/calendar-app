@@ -4,11 +4,12 @@
 export const EDIT_REMINDER = 'EDIT_REMINDER'; 
 export const DELETE_REMINDER = 'DELETE_REMINDER'; 
 export const ADD_REMINDER = 'ADD_REMINDER'; 
-export const EXPAND_CALENDAR = 'EXPAND_CALENDAR'; 
+export const SET_CALENDAR_EXPANSION = 'SET_CALENDAR_EXPANSION'; 
 
 // filter constants
 export const ExpansionFilters = {
-    BY_YEAR: 'BY_YEAR'
+    BY_YEAR: 'BY_YEAR',
+    BY_MONTH: 'BY_MONTH'
 }
 
 // action creators - functions that create action
@@ -33,9 +34,9 @@ export function deleteReminder(id) {
     };
 }
 
-export function expandCalendar(expansionFilter) {
+export function setCalendarExpansionFilter(expansionFilter) {
     return {
-        type: EXPAND_CALENDAR, 
+        type: SET_CALENDAR_EXPANSION, 
         expansionFilter
     };
 }
