@@ -34,10 +34,10 @@ export function deleteReminder(id) {
     };
 }
 
-export function setCalendarExpansionFilter(expansionFilter) {
+export function setCalendarExpansionFilter(expansion) {
     return {
         type: SET_CALENDAR_EXPANSION, 
-        expansionFilter
+        expansion
     };
 }
 
