@@ -5,13 +5,80 @@ import {
     ExpansionFilters,
     SET_CALENDAR_EXPANSION
 } from './actions.js';
-
+import { combineReducers } from 'redux';
 
 const initialState = {
     expansionFilters: ExpansionFilters.BY_MONTH,
     days: {},
     reminders: {}
 };
+
+// Private Functions
+function _addReminderForDays(state, action) {
+    var reminder = action.reminder; 
+    var day = state[reminder.date];
+
+    day.reminders.push(reminder.id); 
+    return Object.assign({}, state, day);    
+}
+
+function _addReminderForReminders(state = {}, action) {
+    var reminder = action.reminder; 
+
+    return Object.assign({}, state, {
+        [reminder.id]: Object.assign({}, reminder)
+    });
+}
+
+
+function _editReminderForDays(state, action) {
+    if (!state.hasOwnProperty(action.date)) {
+        return state; 
+    }
+    var s = _deleteReminderForDays(state, action); 
+    return _addReminderForDays(s, action); 
+}
+
+function _editReminderForReminders(state = {}, action) {
+    var reminder = action.reminder; 
+
+    if (!state.hasOwnProperty(reminder.id)) {
+        return state; 
+    }
+
+    var reminder = action.reminder; 
+    var editedReminder = Object.assign({}, state[reminder.id], reminder); 
+    
+    return Object.assign({}, state, {
+        [reminder.id]: editedReminder
+    });
+
+}
+
+function _deleteReminderForDays(state, action) {
+    var s = Object.assign({}, state); 
+    
+    for (var id in s) {
+        if(s.hasOwnProperty(id)) {
+            if(s[id].reminders.includes(action.id)) {
+              s[id].reminders = s[id].reminders.filter((reminder) => reminder !== action.id);
+            }
+        }    
+    }
+    
+    return s; 
+}
+
+function _deleteReminderForReminders(state, action) {
+    if (!state.hasOwnProperty(action.id)) {
+        return state; 
+    }
+
+    var s = Object.assign({}, state); 
+    delete s[action.id]; 
+
+    return s; 
+}
 
 
 export function reminders(state = {}, action) {
@@ -40,7 +107,7 @@ export function days(state = {}, action) {
     }
 }
 
-export function expansionFilter(state = BY_MONTH, action) {
+export function expansionFilter(state = "BY_MONTH", action) {
     switch(action.type) {
         case SET_CALENDAR_EXPANSION:
             return action.expansion;
@@ -49,76 +116,11 @@ export function expansionFilter(state = BY_MONTH, action) {
     }
 }
 
-function _editReminderForReminders(state = {}, action) {
-    var reminder = action.reminder; 
 
-    if (!state.hasOwnProperty(reminder.id)) {
-        return state; 
-    }
+const calendarApp = combineReducers({
+    expansionFilter, 
+    days,
+    reminders
+});
 
-    var reminder = action.reminder; 
-    var editedReminder = Object.assign({}, state[reminder.id], reminder); 
-    
-    return Object.assign({}, state, {
-        [reminder.id]: editedReminder
-    });
-
-}
-
-function _addReminderForReminders(state = {}, action) {
-    var reminder = action.reminder; 
-
-    return Object.assign({}, state, {
-        [reminder.id]: Object.assign({}, reminder)
-    });
-}
-
-function _editReminderForDays(state, action) {
-    if (!state.hasOwnProperty(action.date)) {
-        return state; 
-    }
-    var s = _deleteReminderForDays(state, action); 
-    return _addReminderForDays(s, action); 
-}
-
-function _deleteReminderForReminders(state, action) {
-    if (!state.hasOwnProperty(action.id)) {
-        return state; 
-    }
-
-    var s = Object.assign({}, state); 
-    delete s[action.id]; 
-
-    return s; 
-}
-
-function _deleteReminderForDays(state, action) {
-    var s = Object.assign({}, state); 
-    
-    for (var id in s) {
-        if(s.hasOwnProperty(id)) {
-            if(s[id].reminders.includes(action.id)) {
-              s[id].reminders = s[id].reminders.filter((reminder) => reminder !== action.id);
-            }
-        }    
-    }
-    
-    return s; 
-}
-
-function _addReminderForDays(state, action) {
-    var reminder = action.reminder; 
-    var day = state[reminder.date];
-
-    day.reminders.push(reminder.id); 
-    return Object.assign({}, state, day);    
-}
-
-
-function calendarApp(state = {}, action) {
-    return {
-        expansionFilter: expansionFilter(state.expansionFilter, action), 
-        days: days(state.days, action),
-        reminders: reminders(state.reminders, action)
-    };
-}
+export default calendarApp; 
