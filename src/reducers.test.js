@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import createMockState, { createMockDays, createMockReminders } from './createMockState';
 import { 
     addReminder, 
     editReminder, 
@@ -6,108 +7,43 @@ import {
 } from './actions.js';
 import { reminders, days } from './reducers.js'; 
 
-describe("Days' reducer", () => {
+describe("The days Reducer", () => {
     var state = {};
+    
     beforeEach(() => {
-        state = { 
-            days: {
-                "2018-10-01": {
-                    date: '2018-10-01',
-                    reminders: ['d123', 'd124']
-                },
-                "2018-10-02": {
-                    date: '2018-10-02',
-                    reminders: []
-                },
-                "2018-10-03": {
-                    date: '2018-10-03',
-                    reminders: ['d122']
-                }
-            },
-            reminders: {
-                "d122": {
-                    id: 'd122',
-                    title: 'Interview',
-                    date: '2018-10-03',
-                    time: '12:30:00',
-                    color: 'BLUE'
-                },
-                "d123": {
-                    id: 'd123',
-                    title: 'This is a title',
-                    date: '2018-10-01',
-                    time: '12:30:00',
-                    color: 'BLUE'
-                },
-                "d124": {
-                    id: 'd124',
-                    title: 'This is a new item',
-                    date: '2018-10-01',
-                    time: '1:00:00',
-                    color: 'RED'
-                },
-            }
-        };
+        state = createMockState();
     });
-    describe("Performing a DELETE_REMINDER action", () => {
-        it("should remove the reminder from days", () => {
-            var actionDeleteReminder = deleteReminder("d122");
-            state.days = days(state.days, actionDeleteReminder);
+    
+    describe("when DELETE_REMINDER action is dispatched", () => {
+        it("should remove the specified reminder ID from days' state", () => {
+            var reminderId = "d122"; 
+            state.days = days(state.days, deleteReminder(reminderId));
+            
+            assert.notInclude(state.days["2018-10-03"].reminders, reminderId);
         });
     });
-    describe("Performing an ADD_REMINDER action", () => {
-        it("should map reminderId to its day", () => {
-            var actionAddReminder = addReminder({
+    
+    describe("when ADD_REMINDER action is dispatched", () => {
+        it("should add the reminder ID to its appropriate day", () => {
+            var reminderPayload = {
                 id: "d129",
                 title: 'Go to the corner store',
                 date: '2018-10-01',
                 time: '5:00:00',
                 color: 'Green'
-            });
-
-            state.days = days(state.days, actionAddReminder);            
-            assert.include(state.days["2018-10-01"].reminders, "d129");
-        });
-        it("should increase the day reminders by 1 if isn't include", () => {
-            var actionAddReminder = addReminder({
-                id: "d129",
-                title: 'Go to the corner store',
-                date: '2018-10-01',
-                time: '5:00:00',
-                color: 'Green'
-            });
-
-            state.days = days(state.days, actionAddReminder);
-            assert.lengthOf(state.days["2018-10-01"].reminders, 3);
+            }; 
+            state.days = days(state.days, addReminder(reminderPayload));  
+            
+            assert.include(state.days["2018-10-01"].reminders, reminderPayload.id);
+            
         });
     });
 }); 
+
 describe("Reminders' Reducer", () => {
     var state = {}; 
     beforeEach(() => {
-        state = {
-            "d122": {
-                id: 'd122',
-                title: 'Interview',
-                date: '2018-10-03',
-                time: '12:30:00',
-                color: 'BLUE'
-            },
-            "d123": {
-                id: 'd123',
-                title: 'This is a title',
-                date: '2018-10-01',
-                time: '12:30:00',
-                color: 'BLUE'
-            },
-            "d124": {
-                id: 'd124',
-                title: 'This is a new item',
-                date: '2018-10-01',
-                time: '1:00:00',
-                color: 'RED'
-            },
-        }
+        state = createMockReminders();
     });
 
     describe("Performing an ADD_REMINDER action", () => {

@@ -91,20 +91,19 @@ function _deleteReminderForReminders(state, action) {
 
     return s; 
 }
+
 function _deleteReminderForDays(state, action) {
-    var reminder = action.reminder; 
-
-    if (!state.hasOwnProperty(reminder.date)) {
-        return state; 
+    var s = Object.assign({}, state); 
+    
+    for (var id in s) {
+        if(s.hasOwnProperty(id)) {
+            if(s[id].reminders.includes(action.id)) {
+              s[id].reminders = s[id].reminders.filter((reminder) => reminder !== action.id);
+            }
+        }    
     }
-
-    var s = Object.assign({}, state);
-    s[action.date].reminders = s[action.date].reminders.filter((reminderId) => {
-        return reminderId !== action.id; 
-    });
-
+    
     return s; 
-
 }
 
 function _addReminderForDays(state, action) {
@@ -123,5 +122,3 @@ function calendarApp(state = {}, action) {
         reminders: reminders(state.reminders, action)
     };
 }
-
-// export default calendarApp; 
