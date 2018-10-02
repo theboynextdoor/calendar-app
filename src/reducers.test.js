@@ -46,47 +46,43 @@ describe("Reminders' Reducer", () => {
         state = createMockReminders();
     });
 
-    describe("Performing an ADD_REMINDER action", () => {
-        var newReminder = {
-            id: 'd126',
-            title: 'Go to the corner store',
-            date: '2018-10-01',
-            time: '5:00:00',
-            color: 'Green'
-        }; 
-
-        var action = addReminder(newReminder); 
-
-        it('should increase the size of reminders by 1', () => {
-            state = reminders(state, action); 
+    describe("when ADD_REMINDER action is dispatched", () => {
+        var newReminder;
+        
+        beforeEach(() => {
+            newReminder =  {
+                id: 'd126',
+                title: 'Go to the corner store',
+                date: '2018-10-01',
+                time: '5:00:00',
+                color: 'Green'
+            }; 
+        });
+        
+        it('should add the new reminder to the Reminders Store', () => {
+            state = reminders(state,addReminder(newReminder)); 
+            assert.property(state, newReminder.id);
+        });
+        
+        it('should increase the size of the Reminders Store by 1', () => {
+            state = reminders(state, addReminder(newReminder)); 
             var size = Object.keys(state).length; 
 
             assert.strictEqual(size, 4);
         });
-
-        it('should have a new reminder with the id in the ADD_ACTION object', () => {
-            state = reminders(state, action); 
-            assert.property(state, 'd126');
-        });
     });
 
-    describe("Performing an EDIT_REMINDER action", () => {
-        it("should not affect the size of the state", () => {
-            var action = editReminder({
+    describe("when EDIT_REMINDER action is dispatched", () => {
+        it("should not change the size of Reminders state", () => {
+            state = reminders(state, editReminder({
                 id: "d122", 
                 title: "A dogs best friend"
-            });
-            state = reminders(state, action); 
+            })); 
 
             assert.strictEqual(Object.keys(state).length, 3);
         });
 
-        it("should only change the values specified", () => {
-            var actionEditReminder = editReminder({
-                id: "d122", 
-                title: "A dogs best friend"
-            });
-
+        it("should not change the number of properties on the specified reminder", () => {
             var expected = {
                 id: 'd122',
                 title: "A dogs best friend",
@@ -95,21 +91,19 @@ describe("Reminders' Reducer", () => {
                 color: 'BLUE'
             };
 
-            state = reminders(state, actionEditReminder); 
-            assert.deepEqual(state["d122"], expected);
+            state = reminders(state, editReminder({
+                id: "d122", 
+                title: "A dogs best friend"
+            })); 
+            
+            assert.deepEqual(state[expected.id], expected);
         });
     });
-    describe("Performing a DELETE_REMINDER action", () => {
-        it("should decrease the reminders by 1", () => {
-            var actionDeleteReminder = deleteReminder("d122");
-            state = reminders(state, actionDeleteReminder);
-
-            assert.strictEqual(Object.keys(state).length, 2);
-        });
-
-        it("should remove the reminder from the reminders object", () => {
-            var actionDeleteReminder = deleteReminder("d122");
-            state = reminders(state, actionDeleteReminder);
+    
+    describe("when DELETE_REMINDER is dispatched", () => {
+        it("should remove the reminder from the reminders state", () => {
+            var reminderId = "d122";
+            state = reminders(state, deleteReminder(reminderId));
 
             assert.notExists(state["d122"]);
         });
