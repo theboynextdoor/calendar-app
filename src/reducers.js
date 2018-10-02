@@ -17,10 +17,11 @@ const initialState = {
 export function reminders(state = {}, action) {
     switch(action.type) {
         case ADD_REMINDER:
+            return _addReminderForReminders(state, action); 
         case EDIT_REMINDER:
-            return _addReminderToReminders(state, action); 
+            return _editReminderForReminders(state, action);
         case DELETE_REMINDER: 
-            return _deleteReminderFromReminders(state, action);
+            return _deleteReminderForReminders(state, action);
         default: 
             return state; 
     }
@@ -29,11 +30,11 @@ export function reminders(state = {}, action) {
 export function days(state = {}, action) {
     switch(action.type) {
         case ADD_REMINDER:
-            return _addReminderIdToDays(state, action); 
+            return _addReminderForDays(state, action); 
         case DELETE_REMINDER:
-            return _deleteReminderIdFromDays(state, action);
+            return _deleteReminderForDays(state, action);
         case EDIT_REMINDER: 
-            return _editReminderFromDays(state, action);
+            return _editReminderForDays(state, action);
         default: 
             return state; 
     }
@@ -48,21 +49,39 @@ export function expansionFilter(state = BY_MONTH, action) {
     }
 }
 
-function _addReminderToReminders(state, action) {
+function _editReminderForReminders(state = {}, action) {
+    var reminder = action.reminder; 
+
+    if (!state.hasOwnProperty(reminder.id)) {
+        return state; 
+    }
+
+    var reminder = action.reminder; 
+    var editedReminder = Object.assign({}, state[reminder.id], reminder); 
+    
     return Object.assign({}, state, {
-        [action.id]: Object.assign({}, action)
+        [reminder.id]: editedReminder
+    });
+
+}
+
+function _addReminderForReminders(state = {}, action) {
+    var reminder = action.reminder; 
+
+    return Object.assign({}, state, {
+        [reminder.id]: Object.assign({}, reminder)
     });
 }
 
-function _editReminderFromDays(state, action) {
+function _editReminderForDays(state, action) {
     if (!state.hasOwnProperty(action.date)) {
         return state; 
     }
-    var s = _deleteReminderIdFromDays(state, action); 
-    return _addReminderIdToDays(s, action); 
+    var s = _deleteReminderForDays(state, action); 
+    return _addReminderForDays(s, action); 
 }
 
-function _deleteReminderFromReminders(state, action) {
+function _deleteReminderForReminders(state, action) {
     if (!state.hasOwnProperty(action.id)) {
         return state; 
     }
@@ -72,7 +91,7 @@ function _deleteReminderFromReminders(state, action) {
 
     return s; 
 }
-function _deleteReminderIdFromDays(state, action) {
+function _deleteReminderForDays(state, action) {
     if (!state.hasOwnProperty(action.date)) {
         return state; 
     }
@@ -86,7 +105,7 @@ function _deleteReminderIdFromDays(state, action) {
 
 }
 
-function _addReminderIdToDays(state, action) {
+function _addReminderForDays(state, action) {
     if (state.hasOwnProperty(action.date)) {
         return state; 
     }
@@ -111,4 +130,4 @@ function calendarApp(state = {}, action) {
     };
 }
 
-export default calendarApp; 
+// export default calendarApp; 
