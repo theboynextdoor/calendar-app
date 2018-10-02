@@ -1,7 +1,87 @@
 import { assert } from 'chai';
-import { addReminder, editReminder, deleteReminder } from './actions.js';
-import { reminders } from './reducers.js'; 
+import { 
+    addReminder, 
+    editReminder, 
+    deleteReminder
+} from './actions.js';
+import { reminders, days } from './reducers.js'; 
 
+describe("Days' reducer", () => {
+    var state = {};
+    beforeEach(() => {
+        state = { 
+            days: {
+                "2018-10-01": {
+                    date: '2018-10-01',
+                    reminders: ['d123', 'd124']
+                },
+                "2018-10-02": {
+                    date: '2018-10-02',
+                    reminders: []
+                },
+                "2018-10-03": {
+                    date: '2018-10-03',
+                    reminders: ['d122']
+                }
+            },
+            reminders: {
+                "d122": {
+                    id: 'd122',
+                    title: 'Interview',
+                    date: '2018-10-03',
+                    time: '12:30:00',
+                    color: 'BLUE'
+                },
+                "d123": {
+                    id: 'd123',
+                    title: 'This is a title',
+                    date: '2018-10-01',
+                    time: '12:30:00',
+                    color: 'BLUE'
+                },
+                "d124": {
+                    id: 'd124',
+                    title: 'This is a new item',
+                    date: '2018-10-01',
+                    time: '1:00:00',
+                    color: 'RED'
+                },
+            }
+        };
+    });
+    describe("Performing a DELETE_REMINDER action", () => {
+        it("should remove the reminder from days", () => {
+            var actionDeleteReminder = deleteReminder("d122");
+            state.days = days(state.days, actionDeleteReminder);
+        });
+    });
+    describe("Performing an ADD_REMINDER action", () => {
+        it("should map reminderId to its day", () => {
+            var actionAddReminder = addReminder({
+                id: "d129",
+                title: 'Go to the corner store',
+                date: '2018-10-01',
+                time: '5:00:00',
+                color: 'Green'
+            });
+
+            state.days = days(state.days, actionAddReminder);            
+            assert.include(state.days["2018-10-01"].reminders, "d129");
+        });
+        it("should increase the day reminders by 1 if isn't include", () => {
+            var actionAddReminder = addReminder({
+                id: "d129",
+                title: 'Go to the corner store',
+                date: '2018-10-01',
+                time: '5:00:00',
+                color: 'Green'
+            });
+
+            state.days = days(state.days, actionAddReminder);
+            assert.lengthOf(state.days["2018-10-01"].reminders, 3);
+        });
+    });
+}); 
 describe("Reminders' Reducer", () => {
     var state = {}; 
     beforeEach(() => {

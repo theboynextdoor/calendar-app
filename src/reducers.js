@@ -92,7 +92,9 @@ function _deleteReminderForReminders(state, action) {
     return s; 
 }
 function _deleteReminderForDays(state, action) {
-    if (!state.hasOwnProperty(action.date)) {
+    var reminder = action.reminder; 
+
+    if (!state.hasOwnProperty(reminder.date)) {
         return state; 
     }
 
@@ -106,19 +108,11 @@ function _deleteReminderForDays(state, action) {
 }
 
 function _addReminderForDays(state, action) {
-    if (state.hasOwnProperty(action.date)) {
-        return state; 
-    }
+    var reminder = action.reminder; 
+    var day = state[reminder.date];
 
-    var isReminderInDay = state[action.date].reminders.includes(action.id);
-    var s = Object.assign({}, state); 
-    
-    if (!isReminderInDay) {
-        s[action.date].reminders.push(action.id); 
-        return s; 
-    }
-
-    return state; 
+    day.reminders.push(reminder.id); 
+    return Object.assign({}, state, day);    
 }
 
 
