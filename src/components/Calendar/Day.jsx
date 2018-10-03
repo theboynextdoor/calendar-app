@@ -1,6 +1,8 @@
 import React from 'react';
+import './Day.css';
 
-function CalendarDay(props) {
+
+function Day(props) {
     return (
         <div className="calendar-day">
             <span>{props.day}</span>
@@ -9,4 +11,4 @@ function CalendarDay(props) {
 }
 
 
-export default CalendarDay; 
+export default Day; 
