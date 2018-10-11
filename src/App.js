@@ -17,21 +17,17 @@ class App extends Component {
     this.state = initState(new Date());
   }
   
-  setWeeks() {
+  // need to be refactor
+  weeks() {
     let weeks = []; 
     let dates = Object.keys(this.state.days);
-    let previous = 0;
     let weekNo = 0;
-    let dayJSX; 
-    
-    // add the first day in the first week
-    weeks[weekNo] = [ <Day day={ (getDate(dates[previous])).toString() } /> ]; 
-    
     // add days into its appropriate week
-    for (let current = previous + 1; current < dates.length; current++) {
-      dayJSX = <Day day={ (getDate(dates[current])).toString() } />; 
-      
-      if(isSameWeek(dates[previous++], dates[current])) {
+    for (let current = 0; current < dates.length; current++) {
+      let dayJSX = <Day day={ (getDate(dates[current])).toString() } reminders={this.state.days[dates[current]].reminders} key={dates[current]}/>; 
+      if (current === 0) {
+        weeks[weekNo] = [ dayJSX ]
+      } else if(isSameWeek(dates[current - 1], dates[current])) {
         weeks[weekNo].push(dayJSX);
       } else {
         weeks[++weekNo] = [dayJSX];
@@ -40,17 +36,22 @@ class App extends Component {
     
     return weeks;
   }
+  
+  month() {
+    let weeks = this.weeks();
+    weeks = weeks.map((week, index) => (<Week key={`week-${index + 1}`}>{week}</Week>)); 
+    // move first day 
+    return (
+      <div className="calendar">
+        {weeks}
+      </div>
+    );
+  }
+  
   render() {
-    console.log(this.setWeeks());
-    var weeks = this.setWeeks(); 
-    var monthJSX = []; 
-    
-    for (var i = 0; i < weeks.length; i++) {
-      monthJSX.push(<Week>{weeks[i]}</Week>);
-    }
     return (
       <div className="container">
-        {monthJSX}
+        {this.month()}
       </div>
     );
   }

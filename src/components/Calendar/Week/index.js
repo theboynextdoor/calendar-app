@@ -4,7 +4,7 @@ import './style.css';
 
 function Week(props) {
     return (
-        <div className="calendar-week">
+        <div className='calendar-week'>
             {props.children}
         </div>
     );
