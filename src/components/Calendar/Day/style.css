@@ -1,10 +1,13 @@
 .calendar-day {
-    border-bottom: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
     box-sizing: border-box;
     color: #333;
     height: 148px;
-    line-height: 32px;
+    line-height: 2em;
     padding-left: .8rem;
     width: 14.2857143%;
+}
+
+.calendar-day:nth-child(7) {
+    border-right: none;
 }

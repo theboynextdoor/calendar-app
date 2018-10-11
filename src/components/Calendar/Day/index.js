@@ -1,5 +1,6 @@
 import React from 'react';
-import './Day.css';
+import PropTypes from 'prop-types';
+import './style.css';
 
 
 function Day(props) {
@@ -10,5 +11,9 @@ function Day(props) {
     );
 }
 
+
+Day.propTypes = {
+    day: PropTypes.string
+};
 
 export default Day; 
