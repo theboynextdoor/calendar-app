@@ -7,6 +7,8 @@ import Week from './components/Calendar/Week';
 // date-fns
 import getDate from 'date-fns/get_date'; 
 import isSameWeek from 'date-fns/is_same_week';
+import toWeeks from './helper/toWeeks';
+
 
 // state
 import initState from './initState';
@@ -17,7 +19,7 @@ class App extends Component {
     this.state = initState(new Date());
   }
   
-  // need to be refactor
+  // needs to be refactor
   weeks() {
     let weeks = []; 
     let dates = Object.keys(this.state.days);
@@ -51,6 +53,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        <Header />
         {this.month()}
       </div>
     );

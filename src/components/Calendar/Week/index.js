@@ -1,4 +1,5 @@
 import React from 'react';
+import Day from '../Day';
 import './style.css';
 
 
