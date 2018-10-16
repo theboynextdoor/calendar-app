@@ -8,7 +8,7 @@ function Day(props) {
         <span>{reminder}</span>
     )); 
     return (
-        <div className="calendar-day">
+        <div className="calendar-day" style={props.style}>
             <span>{props.day}</span>
             {reminders}
         </div>
@@ -18,6 +18,11 @@ function Day(props) {
 
 Day.propTypes = {
     day: PropTypes.string
+};
+
+Day.defaultProps = {
+    style: {},
+    reminder: {}
 };
 
 export default Day; 
