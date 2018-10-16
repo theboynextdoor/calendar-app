@@ -1,0 +1,16 @@
+.reminder {
+    color: #333333;
+    margin: 0;
+    line-height: 1.55;
+    margin-bottom: 0.6em;
+}
+
+.reminder__time,
+.reminder__title {
+    font-size: 0.8em;
+}
+
+.reminder__title {
+    margin-left: 0.4em;
+    font-weight: bold;
+}

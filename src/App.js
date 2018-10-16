@@ -42,6 +42,39 @@ class App extends Component {
     return (
       <div className="container">
         <Header />
+        <div className="calendar-header">
+          <div>
+            <span>Sun</span>
+          </div>
+          <div>
+            <span>Mon</span>
+          </div>
+          <div>
+            <span>
+              Tue
+            </span>
+          </div>
+          <div>
+            <span>
+              Wed
+            </span>
+          </div>
+          <div>
+            <span>
+              Thu
+            </span>
+          </div>
+          <div>
+            <span>
+              Fri
+            </span>
+          </div>
+          <div>
+            <span>
+              Sat
+            </span>
+          </div>
+        </div>
         <Days days={this.state.days}/>
       </div>
     );
