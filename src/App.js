@@ -10,7 +10,7 @@ import isSameWeek from 'date-fns/is_same_week';
 import toWeeks from './helper/toWeeks';
 import Days from './components/Calendar/Days';
 import CalendarHeader from './components/Calendar/Header'; 
-
+import Button from './components/Button';
 // state
 import initState from './initState';
 
@@ -47,6 +47,7 @@ class App extends Component {
           <CalendarHeader />
           <Days days={this.state.days}/>
         </div>
+        <Button>Add Reminder</Button>
       </div>
     );
   }

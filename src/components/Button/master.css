@@ -1,0 +1,24 @@
+.btn {
+    /*Floating button*/
+    bottom: 3.5rem;
+    position: fixed;
+    right:  7.5rem;
+    
+    /*Rounding button*/
+    border-radius: 100px;
+    height: 75px;
+    width: 75px;
+    
+    
+    /* Generic */
+    border-width: 0;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .6);
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.4rem;
+    transition: background-color .3s;
+    
+    /* Attention button */
+    background-color: #e74c3c;
+}
