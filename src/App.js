@@ -7,10 +7,14 @@ import Week from './components/Calendar/Week';
 // date-fns
 import getDate from 'date-fns/get_date'; 
 import isSameWeek from 'date-fns/is_same_week';
+
+import formatToMonthYear from './helper/formatToMonthYear';
+
 import toWeeks from './helper/toWeeks';
 import Days from './components/Calendar/Days';
 import CalendarHeader from './components/Calendar/Header'; 
 import Button from './components/Button';
+ 
 // state
 import initState from './initState';
 
@@ -40,9 +44,11 @@ class App extends Component {
   }
   
   render() {
+    var days = Object.keys(this.state.days);
+    
     return (
       <div className="container">
-        <MastHead title="October 2018"/>
+        <MastHead title={formatToMonthYear(days[0])} />
         <div className="calendar">
           <CalendarHeader />
           <Days days={this.state.days}/>
