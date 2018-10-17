@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import Header from './components/Header';
+import MastHead from './components/MastHead';
 import Day from './components/Calendar/Day';
 import './App.css';
 import Week from './components/Calendar/Week';
@@ -9,6 +9,7 @@ import getDate from 'date-fns/get_date';
 import isSameWeek from 'date-fns/is_same_week';
 import toWeeks from './helper/toWeeks';
 import Days from './components/Calendar/Days';
+import CalendarHeader from './components/Calendar/Header'; 
 
 // state
 import initState from './initState';
@@ -41,41 +42,11 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Header />
-        <div className="calendar-header">
-          <div>
-            <span>Sun</span>
-          </div>
-          <div>
-            <span>Mon</span>
-          </div>
-          <div>
-            <span>
-              Tue
-            </span>
-          </div>
-          <div>
-            <span>
-              Wed
-            </span>
-          </div>
-          <div>
-            <span>
-              Thu
-            </span>
-          </div>
-          <div>
-            <span>
-              Fri
-            </span>
-          </div>
-          <div>
-            <span>
-              Sat
-            </span>
-          </div>
+        <MastHead title="October 2018"/>
+        <div className="calendar">
+          <CalendarHeader />
+          <Days days={this.state.days}/>
         </div>
-        <Days days={this.state.days}/>
       </div>
     );
   }

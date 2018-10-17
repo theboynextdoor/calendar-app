@@ -1,0 +1,19 @@
+.calendar__day {
+    border-left: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    color: #333;
+    height: 148px;
+    line-height: 2em;
+    width: 14.2857143%;
+}
+
+.calendar__label {
+    margin-left: .8em;
+}
+
+.calendar__row {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}

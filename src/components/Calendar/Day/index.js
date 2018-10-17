@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.css';
+import '../master.css';
 
 
 function Day(props) {
     return (
-        <div className="calendar-day" style={props.style}>
-            <span>{props.day}</span>
+        <div className="calendar__day" style={props.style}>
+            <span className="calendar__label">{props.day}</span>
             {props.children}
         </div>
     );

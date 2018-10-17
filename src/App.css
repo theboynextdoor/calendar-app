@@ -13,23 +13,6 @@
 }
 
 .calendar {
-    display: flex;
-    flex-wrap: wrap;
-    width: 95%;
-}
-.calendar-header {
-  display: flex;
-  flex-wrap: no-wrap;
-  width: 95%;
-}
-
-.calendar-header > div {
+  width: 90%;
   border-right: 1px solid #e0e0e0;
-  text-align: left;
-  padding-left: .8rem;
-  width: 14.2857143%;
-}
-
-.calendar-header > div > span {
-  color: #757575;
 }

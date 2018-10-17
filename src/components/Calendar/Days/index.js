@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Day from '../Day';
 import getDate from 'date-fns/get_date';
-import './style.css'; 
 
 function Days(props) {
     // Convert the props.days object keys into an array
@@ -24,7 +23,7 @@ function Days(props) {
     });
     
     return (
-        <div className="calendar">
+        <div className="calendar__row">
             {$days}
         </div>
     );
