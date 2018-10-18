@@ -4,6 +4,10 @@ import MastHead from './components/MastHead';
 import Day from './components/Calendar/Day';
 import './App.css';
 import Week from './components/Calendar/Week';
+import TimeField from './components/FormFields/TimeField';
+import DateField from './components/FormFields/DateField';
+import TitleField from './components/FormFields/TitleField';
+
 // date-fns
 import getDate from 'date-fns/get_date'; 
 import isSameWeek from 'date-fns/is_same_week';
@@ -39,10 +43,11 @@ class App extends Component {
     return (
       <div className="calendar">
         {days}
+        
       </div>
     );
   }
-  
+  // <Days days={this.state.days}/>
   render() {
     var days = Object.keys(this.state.days);
     
@@ -51,9 +56,24 @@ class App extends Component {
         <MastHead title={formatToMonthYear(days[0])} />
         <div className="calendar">
           <CalendarHeader />
-          <Days days={this.state.days}/>
+          
         </div>
         <Button>Add Reminder</Button>
+          <div className="card">
+            <div className="btn--close"><i className="fas fa-times"></i></div>
+            <TitleField placeholder="Add Title" />
+            <div className="datetime-container">
+              <div className="date-container">
+                <DateField value="Sep 11, 2018" />
+              </div>
+              <div className="time-container">
+                <TimeField value="11:30am" type="time" />
+                <div className="seperator">&ndash;</div>
+                <TimeField value="12:30pm" type="time" />
+              </div>
+            </div>
+            <button className="o-btn">SAVE</button>
+          </div>
       </div>
     );
   }

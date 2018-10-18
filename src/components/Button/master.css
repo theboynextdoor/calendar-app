@@ -1,8 +1,8 @@
 .btn {
     /*Floating button*/
-    bottom: 3.5rem;
+    bottom: 1.5rem;
     position: fixed;
-    right:  7.5rem;
+    right:  1.5rem;
     
     /*Rounding button*/
     border-radius: 100px;
