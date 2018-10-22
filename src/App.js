@@ -18,7 +18,8 @@ import toWeeks from './helper/toWeeks';
 import Days from './components/Calendar/Days';
 import CalendarHeader from './components/Calendar/Header'; 
 import Button from './components/Button';
- 
+import Modal from './components/Modal'; 
+
 // state
 import initState from './initState';
 
@@ -59,8 +60,7 @@ class App extends Component {
           
         </div>
         <Button classNames={["bg-red", "btn--round", "btn--float"]}>Add Reminder</Button>
-          <div className="card">
-            <div className="btn--close"><i className="fas fa-times"></i></div>
+          <Modal>
             <TitleField placeholder="Add Title" />
             <div className="datetime-container">
               <div className="date-container">
@@ -73,7 +73,7 @@ class App extends Component {
               </div>
             </div>
             <Button>SAVE</Button>
-          </div>
+          </Modal>
       </div>
     );
   }
