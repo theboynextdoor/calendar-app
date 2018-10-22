@@ -57,10 +57,9 @@ class App extends Component {
         <MastHead title={formatToMonthYear(days[0])} />
         <div className="calendar">
           <CalendarHeader />
-          
+          <Days days={this.state.days} />
         </div>
-        <Button classNames={["bg-red", "btn--round", "btn--float"]}>Add Reminder</Button>
-          <Modal>
+                  <Modal>
             <TitleField placeholder="Add Title" />
             <div className="datetime-container">
               <div className="date-container">
@@ -74,6 +73,7 @@ class App extends Component {
             </div>
             <Button>SAVE</Button>
           </Modal>
+        <Button classNames={["bg-red", "btn--round", "btn--float"]}>Add Reminder</Button>
       </div>
     );
   }
