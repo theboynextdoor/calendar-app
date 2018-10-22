@@ -58,7 +58,7 @@ class App extends Component {
           <CalendarHeader />
           
         </div>
-        <Button>Add Reminder</Button>
+        <Button classNames={["bg-red", "btn--round", "btn--float"]}>Add Reminder</Button>
           <div className="card">
             <div className="btn--close"><i className="fas fa-times"></i></div>
             <TitleField placeholder="Add Title" />
@@ -72,7 +72,7 @@ class App extends Component {
                 <TimeField value="12:30pm" type="time" />
               </div>
             </div>
-            <button className="o-btn">SAVE</button>
+            <Button>SAVE</Button>
           </div>
       </div>
     );
