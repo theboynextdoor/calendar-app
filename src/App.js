@@ -26,53 +26,49 @@ import initState from './initState';
 class App extends Component { 
   constructor(props) {
     super(props);
-    this.state = initState(new Date());
+    this.state = { 
+      calendar: initState(new Date()),
+      isModalClose: true
+    };
+    this.closeModal = this.closeModal.bind(this);
   }
   
-  month() {
-    let dates = Object.keys(this.state.days);
-    let days = dates.map((day) => {
-      return (
-        <Day
-          key={day}
-          day={(getDate(day)).toString()}
-          reminders={[]}
-        />
-      );
-    });
-    
-    return (
-      <div className="calendar">
-        {days}
-        
-      </div>
-    );
+  closeModal() {
+    this.setState({
+      isModalClose: true
+    }); 
   }
-  // <Days days={this.state.days}/>
+  
+  // <Days days={this.state.calendar.days}/>
   render() {
-    var days = Object.keys(this.state.days);
+    var days = Object.keys(this.state.calendar.days);
+    let { isModalClose } = this.state; 
+    let modalElement = (
+      <Modal onClick={this.closeModal}>
+        <TitleField placeholder="Add Title" />
+        <div className="datetime-container">
+          <div className="date-container">
+            <DateField value="Sep 11, 2018" />
+          </div>
+          <div className="time-container">
+            <TimeField value="11:30am" type="time" />
+            <div className="seperator">&ndash;</div>
+            <TimeField value="12:30pm" type="time" />
+          </div>
+        </div>
+        <Button>SAVE</Button>
+      </Modal>);
+          
+    let reminderModal = isModalClose ? null : modalElement; 
     
     return (
       <div className="container">
         <MastHead title={formatToMonthYear(days[0])} />
         <div className="calendar">
           <CalendarHeader />
-          <Days days={this.state.days} />
+          <Days days={this.state.calendar.days} />
         </div>
-                  <Modal>
-            <TitleField placeholder="Add Title" />
-            <div className="datetime-container">
-              <div className="date-container">
-                <DateField value="Sep 11, 2018" />
-              </div>
-              <div className="time-container">
-                <TimeField value="11:30am" type="time" />
-                <div className="seperator">&ndash;</div>
-                <TimeField value="12:30pm" type="time" />
-              </div>
-            </div>
-            <Button>SAVE</Button>
-          </Modal>
+        {reminderModal}
         <Button classNames={["bg-red", "btn--round", "btn--float"]}>Add Reminder</Button>
       </div>
     );
