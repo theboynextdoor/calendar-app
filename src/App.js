@@ -31,6 +31,7 @@ class App extends Component {
       isModalClose: true
     };
     this.closeModal = this.closeModal.bind(this);
+    this.openModal = this.openModal.bind(this);
   }
   
   closeModal() {
@@ -39,6 +40,11 @@ class App extends Component {
     }); 
   }
   
+  openModal() {
+    this.setState({
+      isModalClose: false
+    })
+  }
   // <Days days={this.state.calendar.days}/>
   render() {
     var days = Object.keys(this.state.calendar.days);
@@ -69,7 +75,7 @@ class App extends Component {
           <Days days={this.state.calendar.days} />
         </div>
         {reminderModal}
-        <Button classNames={["bg-red", "btn--round", "btn--float"]}>Add Reminder</Button>
+        <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openModal}>Add Reminder</Button>
       </div>
     );
   }
