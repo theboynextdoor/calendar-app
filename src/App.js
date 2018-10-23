@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
 // Internal Components
 import Days from "./components/Calendar/Days";
 import CalendarHeader from "./components/Calendar/Header"; 
@@ -19,6 +20,9 @@ import formatToMonthYear from "./helper/formatToMonthYear";
 // state
 import initState from "./initState";
 
+// Actions
+import { addReminder, editReminder, deleteReminder } from './actions/actions.js';
+
 // CSS
 import "./util.css";
 import "./App.css";
@@ -31,10 +35,25 @@ class App extends Component {
     super(props);
     this.state = { 
       calendar: initState(new Date()),
-      isModalClose: true
+      isModalClose: true,
+      input: ""
     };
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleAddReminder = this.handleAddReminder.bind(this);
+  }
+  
+  handleTitleChange(e) {
+    this.setState({
+      input: e.target.value
+    })
+  }
+  
+  handleAddReminder() {
+    console.log(this.state.input);
+    this.props.addReminder(this.state.input);  
+    this.setState({ input: "" });
   }
   
   closeModal() {
@@ -55,8 +74,13 @@ class App extends Component {
     let modalElement = (
       <Overlay classNames={["center-x-y"]}>
         <Modal onClick={this.closeModal}>
-          <TitleField placeholder="Add Title" />
-          <div className="datetime-container">
+          <input 
+            type="text" 
+            className="input-field input-field--title" 
+            onChange={this.handleTitleChange} 
+            value={this.state.input} 
+          />
+            <div className="datetime-container">
             <div className="date-container">
               <DateField value="Sep 11, 2018" />
             </div>
@@ -66,7 +90,7 @@ class App extends Component {
               <TimeField value="12:30pm" type="time" />
             </div>
           </div>
-          <Button>SAVE</Button>
+          <button className="btn" onClick={this.handleAddReminder}>SAVE</button>
         </Modal>
       </Overlay>
       );
@@ -87,4 +111,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(
+  null, 
+  { addReminder }
+)(App);
