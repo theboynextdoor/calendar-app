@@ -1,31 +1,30 @@
-import React, { Component } from 'react';
-import { Provider } from "react-redux";
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
 // Internal Components
-import Days from './components/Calendar/Days';
-import CalendarHeader from './components/Calendar/Header'; 
-import Button from './components/Button';
-import Modal from './components/Modal'; 
-import Overlay from './components/Overlay';
-import TimeField from './components/FormFields/TimeField';
-import DateField from './components/FormFields/DateField';
-import TitleField from './components/FormFields/TitleField';
-import MastHead from './components/MastHead';
+import Days from "./components/Calendar/Days";
+import CalendarHeader from "./components/Calendar/Header"; 
+import Button from "./components/Button";
+import Modal from "./components/Modal"; 
+import Overlay from "./components/Overlay";
+import TimeField from "./components/FormFields/TimeField";
+import DateField from "./components/FormFields/DateField";
+import TitleField from "./components/FormFields/TitleField";
+import MastHead from "./components/MastHead";
 
 // Util Functions
-import getDate from 'date-fns/get_date'; 
-import isSameWeek from 'date-fns/is_same_week';
-import formatToMonthYear from './helper/formatToMonthYear';
+import getDate from "date-fns/get_date"; 
+import isSameWeek from "date-fns/is_same_week";
+import formatToMonthYear from "./helper/formatToMonthYear";
 
 // state
-import initState from './initState';
+import initState from "./initState";
 
 // CSS
-import './util.css';
-import './App.css';
+import "./util.css";
+import "./App.css";
 
 // Images 
-import logo from './logo.svg';
+import logo from "./logo.svg";
 
 class App extends Component { 
   constructor(props) {
@@ -54,7 +53,7 @@ class App extends Component {
     var days = Object.keys(this.state.calendar.days);
     let { isModalClose } = this.state; 
     let modalElement = (
-      <Overlay classNames={['center-x-y']}>
+      <Overlay classNames={["center-x-y"]}>
         <Modal onClick={this.closeModal}>
           <TitleField placeholder="Add Title" />
           <div className="datetime-container">
