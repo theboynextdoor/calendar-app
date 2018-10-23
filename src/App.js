@@ -19,9 +19,12 @@ import Days from './components/Calendar/Days';
 import CalendarHeader from './components/Calendar/Header'; 
 import Button from './components/Button';
 import Modal from './components/Modal'; 
-
+import Overlay from './components/Overlay';
 // state
 import initState from './initState';
+
+// CSS
+import './util.css';
 
 class App extends Component { 
   constructor(props) {
@@ -50,20 +53,23 @@ class App extends Component {
     var days = Object.keys(this.state.calendar.days);
     let { isModalClose } = this.state; 
     let modalElement = (
-      <Modal onClick={this.closeModal}>
-        <TitleField placeholder="Add Title" />
-        <div className="datetime-container">
-          <div className="date-container">
-            <DateField value="Sep 11, 2018" />
+      <Overlay classNames={['center-x-y']}>
+        <Modal onClick={this.closeModal}>
+          <TitleField placeholder="Add Title" />
+          <div className="datetime-container">
+            <div className="date-container">
+              <DateField value="Sep 11, 2018" />
+            </div>
+            <div className="time-container">
+              <TimeField value="11:30am" type="time" />
+              <div className="seperator">&ndash;</div>
+              <TimeField value="12:30pm" type="time" />
+            </div>
           </div>
-          <div className="time-container">
-            <TimeField value="11:30am" type="time" />
-            <div className="seperator">&ndash;</div>
-            <TimeField value="12:30pm" type="time" />
-          </div>
-        </div>
-        <Button>SAVE</Button>
-      </Modal>);
+          <Button>SAVE</Button>
+        </Modal>
+      </Overlay>
+      );
           
     let reminderModal = isModalClose ? null : modalElement; 
     
