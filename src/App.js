@@ -34,18 +34,23 @@ class App extends Component {
     this.state = { 
       calendar: initState(new Date()),
       isModalClose: true,
-      input: ""
+      titleFieldVal: "", 
+      dateFieldVal: "",
+      startTimeFieldVal: "",
+      endTimeFieldVal: ""
     };
+    
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleAddReminder = this.handleAddReminder.bind(this);
+    
+    this.handleFieldChange = this.handleFieldChange.bind(this);
   }
   
-  handleTitleChange(e) {
+  handleFieldChange(state, e) {
     this.setState({
-      input: e.target.value
-    })
+      [state]: e.target.value
+    });
   }
   
   handleAddReminder() {
@@ -68,14 +73,25 @@ class App extends Component {
   // <Days days={this.state.calendar.days}/>
   render() {
     var days = Object.keys(this.state.calendar.days);
-    let { isModalClose } = this.state; 
+    let { titleFieldVal, dateFieldVal, startTimeFieldVal, endTimeFieldVal, isModalClose } = this.state;
+    
     let modalElement = (
       <Overlay classNames={["center-x-y"]}>
         <Modal onClick={this.closeModal}>
-          <ReminderForm />
+          <ReminderForm 
+            dateField={dateFieldVal}
+            endTimeValue={endTimeFieldVal}
+            startTimeValue={startTimeFieldVal}
+            titleValue={titleFieldVal}
+            onDateFieldChange={(e) => this.handleFieldChange("dateFieldVal", e)}
+            onEndTimeFieldChange={(e) => this.handleFieldChange("endTimeFieldVal", e)}
+            onStartTimeFieldChange={(e) => this.handleFieldChange("startTimeFieldVal", e)}
+            onTitleFieldChange={(e) => this.handleFieldChange("titleFieldVal", e)}
+          />
         </Modal>
       </Overlay>
       );
+      
           
     let reminderModal = isModalClose ? null : modalElement; 
     

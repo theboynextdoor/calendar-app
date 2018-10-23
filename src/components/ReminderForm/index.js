@@ -8,7 +8,7 @@ function ReminderForm(props) {
                 type="text" 
                 className="input-field input-field--title"
                 onChange={props.onTitleFieldChange}
-                value={props.titleField}
+                value={props.titleValue}
                 aria-label="Enter reminder's title here"
                 required
             />
@@ -18,7 +18,7 @@ function ReminderForm(props) {
                     className="input-field input-field--date w-50"
                     arial-label="Enter reminder's date here"
                     onChange={props.onDateFieldChange}
-                    value={props.dateField}
+                    value={props.dateValue}
                     required
                 />
                 <div className="row row--center-x w-50">
@@ -27,7 +27,7 @@ function ReminderForm(props) {
                         className="input-field input-field--time"
                         aria-label="Enter reminder's start time"
                         onChange={props.onStartTimeFieldChange}
-                        value={props.startTimeField}
+                        value={props.startTimeValue}
                         required
                     />
                     <div className="seperator">&ndash;</div>
@@ -36,7 +36,7 @@ function ReminderForm(props) {
                         className="input-field input-field--time"
                         aria-label="Enter reminder's end time"
                         onChange={props.onEndTimeFieldChange}
-                        value={props.endTimeField}
+                        value={props.endTimeValue}
                         required
                     />
                 </div>
