@@ -1,30 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import MastHead from './components/MastHead';
-import Day from './components/Calendar/Day';
-import './App.css';
-import Week from './components/Calendar/Week';
-import TimeField from './components/FormFields/TimeField';
-import DateField from './components/FormFields/DateField';
-import TitleField from './components/FormFields/TitleField';
+import { Provider } from "react-redux";
 
-// date-fns
-import getDate from 'date-fns/get_date'; 
-import isSameWeek from 'date-fns/is_same_week';
-
-import formatToMonthYear from './helper/formatToMonthYear';
-
-import toWeeks from './helper/toWeeks';
+// Internal Components
 import Days from './components/Calendar/Days';
 import CalendarHeader from './components/Calendar/Header'; 
 import Button from './components/Button';
 import Modal from './components/Modal'; 
 import Overlay from './components/Overlay';
+import TimeField from './components/FormFields/TimeField';
+import DateField from './components/FormFields/DateField';
+import TitleField from './components/FormFields/TitleField';
+import MastHead from './components/MastHead';
+
+// Util Functions
+import getDate from 'date-fns/get_date'; 
+import isSameWeek from 'date-fns/is_same_week';
+import formatToMonthYear from './helper/formatToMonthYear';
+
 // state
 import initState from './initState';
 
 // CSS
 import './util.css';
+import './App.css';
+
+// Images 
+import logo from './logo.svg';
 
 class App extends Component { 
   constructor(props) {
