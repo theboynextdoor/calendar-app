@@ -7,10 +7,8 @@ import CalendarHeader from "./components/Calendar/Header";
 import Button from "./components/Button";
 import Modal from "./components/Modal"; 
 import Overlay from "./components/Overlay";
-import TimeField from "./components/FormFields/TimeField";
-import DateField from "./components/FormFields/DateField";
-import TitleField from "./components/FormFields/TitleField";
 import MastHead from "./components/MastHead";
+import ReminderForm from "./components/ReminderForm";
 
 // Util Functions
 import getDate from "date-fns/get_date"; 
@@ -74,23 +72,7 @@ class App extends Component {
     let modalElement = (
       <Overlay classNames={["center-x-y"]}>
         <Modal onClick={this.closeModal}>
-          <input 
-            type="text" 
-            className="input-field input-field--title" 
-            onChange={this.handleTitleChange} 
-            value={this.state.input} 
-          />
-            <div className="datetime-container">
-            <div className="date-container">
-              <DateField value="Sep 11, 2018" />
-            </div>
-            <div className="time-container">
-              <TimeField value="11:30am" type="time" />
-              <div className="seperator">&ndash;</div>
-              <TimeField value="12:30pm" type="time" />
-            </div>
-          </div>
-          <button className="btn" onClick={this.handleAddReminder}>SAVE</button>
+          <ReminderForm />
         </Modal>
       </Overlay>
       );

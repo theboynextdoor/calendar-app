@@ -3,3 +3,26 @@
     align-items: center;
     justify-content: center;
 }
+
+.bg-gray {
+    background-color: #F5F5F5;
+} 
+/* Row */
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.row--center-x {
+  align-items: center;
+}
+
+/* Margin */ 
+.m-t-1 {
+    margin-top: 1rem;
+}
+
+.m-b-1 {
+    margin-bottom: 1rem;
+}

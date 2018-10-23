@@ -1,4 +1,5 @@
 .input-field {
+    box-sizing: border-box;
     background-color: transparent;
     border: 0;
     font-size: .875rem;
@@ -6,8 +7,9 @@
 }
 
 .title-field {
-    border: 0; 
-    font-size: 1.5rem;
+    border: 0;
+    font-size: 1.3rem;
+    width: 100%;
 }
 
 .input-field--time,
@@ -34,18 +36,4 @@
 
 .input-field--title:focus {
     outline: none;
-}
-
-
-.datetime-container {
-    background: #F5F5F5;
-    display: flex;
-    flex-direction: row;
-}
-
-.date-container, 
-.time-container {
-    display: flex;
-    width: 50%;
-    align-items: center;
 }
