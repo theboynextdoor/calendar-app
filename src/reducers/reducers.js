@@ -5,6 +5,7 @@ import {
     ExpansionFilters,
     SET_CALENDAR_EXPANSION
 } from '../actions/actions.js';
+
 import { combineReducers } from 'redux';
 
 const initialState = {
@@ -24,7 +25,6 @@ function _addReminderForDays(state, action) {
 
 function _addReminderForReminders(state = {}, action) {
     var reminder = action.reminder; 
-
     return Object.assign({}, state, {
         [reminder.id]: Object.assign({}, reminder)
     });

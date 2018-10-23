@@ -14,6 +14,7 @@ import ReminderForm from "./components/ReminderForm";
 import getDate from "date-fns/get_date"; 
 import isSameWeek from "date-fns/is_same_week";
 import formatToMonthYear from "./helper/formatToMonthYear";
+import uniqid from "uniqid";
 
 // state
 import initState from "./initState";
@@ -54,9 +55,23 @@ class App extends Component {
   }
   
   handleAddReminder() {
-    console.log(this.state.input);
-    this.props.addReminder(this.state.input);  
-    this.setState({ input: "" });
+    let { dateFieldVal, startTimeFieldVal, endTimeFieldVal, titleFieldVal } = this.state;
+    var payload = {
+      id: uniqid("r-"),
+      title: titleFieldVal,
+      date: dateFieldVal,
+      startTime: startTimeFieldVal,
+      endTime: endTimeFieldVal
+    };
+    
+    this.props.addReminder(payload);  
+    
+    this.setState({       
+      titleFieldVal: "", 
+      dateFieldVal: "",
+      startTimeFieldVal: "",
+      endTimeFieldVal: "" 
+    });
   }
   
   closeModal() {
@@ -87,6 +102,7 @@ class App extends Component {
             onEndTimeFieldChange={(e) => this.handleFieldChange("endTimeFieldVal", e)}
             onStartTimeFieldChange={(e) => this.handleFieldChange("startTimeFieldVal", e)}
             onTitleFieldChange={(e) => this.handleFieldChange("titleFieldVal", e)}
+            onButtonClick={this.handleAddReminder}
           />
         </Modal>
       </Overlay>

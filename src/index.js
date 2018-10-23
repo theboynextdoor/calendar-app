@@ -9,7 +9,7 @@ import initState from './initState';
 
 import { Provider } from "react-redux";
 
-const store = createStore(calendarApp, initState(new Date)); 
+const store = createStore(calendarApp, initState(new Date), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); 
 const rootElement = document.getElementById("root");
 
 ReactDOM.render(
