@@ -11,6 +11,7 @@ function ReminderForm(props) {
                 value={props.titleValue}
                 aria-label="Enter reminder's title here"
                 required
+                placeholder="Add Title"
             />
             <div className="row row--center-x m-t-1 bg-gray">
                 <input 

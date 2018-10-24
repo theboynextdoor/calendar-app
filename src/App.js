@@ -15,6 +15,8 @@ import getDate from "date-fns/get_date";
 import isSameWeek from "date-fns/is_same_week";
 import formatToMonthYear from "./helper/formatToMonthYear";
 import uniqid from "uniqid";
+import format from "date-fns/format";
+import addMinutes from "date-fns/add_minutes";
 
 // state
 import initState from "./initState";
@@ -32,19 +34,19 @@ import logo from "./logo.svg";
 class App extends Component { 
   constructor(props) {
     super(props);
+    let now = new Date(); 
     this.state = { 
       calendar: initState(new Date()),
       isModalClose: true,
       titleFieldVal: "", 
-      dateFieldVal: "",
-      startTimeFieldVal: "",
-      endTimeFieldVal: ""
+      dateFieldVal: format(now, "MMM D, YYYY"),
+      startTimeFieldVal: format(now, "h:mma"),
+      endTimeFieldVal: format(addMinutes(now, 30), "h:mma")
     };
     
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleAddReminder = this.handleAddReminder.bind(this);
-    
     this.handleFieldChange = this.handleFieldChange.bind(this);
   }
   
@@ -56,10 +58,13 @@ class App extends Component {
   
   handleAddReminder() {
     let { dateFieldVal, startTimeFieldVal, endTimeFieldVal, titleFieldVal } = this.state;
+    
+    let date = format(dateFieldVal, "YYYY-MM-DD"); 
+ 
     var payload = {
       id: uniqid("r-"),
       title: titleFieldVal,
-      date: dateFieldVal,
+      date: date,
       startTime: startTimeFieldVal,
       endTime: endTimeFieldVal
     };
@@ -94,7 +99,7 @@ class App extends Component {
       <Overlay classNames={["center-x-y"]}>
         <Modal onClick={this.closeModal}>
           <ReminderForm 
-            dateField={dateFieldVal}
+            dateValue={dateFieldVal}
             endTimeValue={endTimeFieldVal}
             startTimeValue={startTimeFieldVal}
             titleValue={titleFieldVal}
