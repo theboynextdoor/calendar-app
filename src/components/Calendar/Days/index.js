@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Day from '../Day';
 import getDate from 'date-fns/get_date';
+import Reminder from '../../Reminder';
 
 function Days(props) {
     // Convert the props.days object keys into an array
@@ -15,7 +16,14 @@ function Days(props) {
                 day={(getDate(id)).toString()}
                 // the first day of the month start on the calendar accordingly
                 style={(index === 0) ? {marginLeft: getDate(id) * 14.2857143 + '%', borderLeft: '1px solid #e0e0e0'} : {}}
-            />
+            >
+            { 
+                props.days[id].reminders.map((reminderId) => {
+                    return <Reminder reminder={props.reminders[reminderId]} />
+                })
+                
+            }
+            </Day>
         );
     });
     
