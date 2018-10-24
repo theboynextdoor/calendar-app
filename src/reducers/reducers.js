@@ -15,12 +15,13 @@ const initialState = {
 };
 
 // Private Functions
-function _addReminderForDays(state, action) {
+function _addReminderForDays(state = {}, action) {
     var reminder = action.reminder; 
-    var day = state[reminder.date];
+    var updatedState = Object.assign({}, state); 
+    
+    updatedState[reminder.date].reminders.push(reminder.id)
 
-    day.reminders.push(reminder.id); 
-    return Object.assign({}, state, { day });    
+    return Object.assign({}, updatedState);    
 }
 
 function _addReminderForReminders(state = {}, action) {
