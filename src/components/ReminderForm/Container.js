@@ -11,22 +11,19 @@ import format from "date-fns/format";
 import addMinutes from "date-fns/add_minutes";
 import uniqid from "uniqid";
 
-import { addReminder } from "./actions/actions.js";
+import { addReminder } from "../../actions/actions.js";
 
 class ReminderFormContainer extends Component {
     constructor(props) {
         super(props);
         let now = new Date(); 
         this.state = {
-            isModalClose: true,
             titleFieldVal: "", 
             dateFieldVal: format(now, "MMM D, YYYY"),
             startTimeFieldVal: format(now, "h:mma"),
             endTimeFieldVal: format(addMinutes(now, 30), "h:mma")  
         }
-        
-        this.closeModal = this.closeModal.bind(this);
-        this.openModal = this.openModal.bind(this);
+    
         this.handleAddReminder = this.handleAddReminder.bind(this);
         this.handleFieldChange = this.handleFieldChange.bind(this);
     }
@@ -60,37 +57,22 @@ class ReminderFormContainer extends Component {
         });
     }
     
-    closeModal() {
-        this.setState({
-          isModalClose: true
-        }); 
-    }
-  
-    openModal() {
-        this.setState({
-          isModalClose: false
-        })
-    }
     
     render() {
-        let { titleFieldVal, dateFieldVal, startTimeFieldVal, endTimeFieldVal, isModalClose } = this.state;
+        let { titleFieldVal, dateFieldVal, startTimeFieldVal, endTimeFieldVal } = this.state;
         
         return (
-             <Overlay classNames={["center-x-y"]}>
-            <Modal onClick={this.closeModal}>
-              <ReminderForm 
-                dateValue={dateFieldVal}
-                endTimeValue={endTimeFieldVal}
-                startTimeValue={startTimeFieldVal}
-                titleValue={titleFieldVal}
-                onDateFieldChange={(e) => this.handleFieldChange("dateFieldVal", e)}
-                onEndTimeFieldChange={(e) => this.handleFieldChange("endTimeFieldVal", e)}
-                onStartTimeFieldChange={(e) => this.handleFieldChange("startTimeFieldVal", e)}
-                onTitleFieldChange={(e) => this.handleFieldChange("titleFieldVal", e)}
-                onButtonClick={this.handleAddReminder}
-              />
-            </Modal>
-          </Overlay>
+                  <ReminderForm 
+                    dateValue={dateFieldVal}
+                    endTimeValue={endTimeFieldVal}
+                    startTimeValue={startTimeFieldVal}
+                    titleValue={titleFieldVal}
+                    onDateFieldChange={(e) => this.handleFieldChange("dateFieldVal", e)}
+                    onEndTimeFieldChange={(e) => this.handleFieldChange("endTimeFieldVal", e)}
+                    onStartTimeFieldChange={(e) => this.handleFieldChange("startTimeFieldVal", e)}
+                    onTitleFieldChange={(e) => this.handleFieldChange("titleFieldVal", e)}
+                    onButtonClick={this.handleAddReminder}
+                  />
         );
     }
 }
@@ -98,4 +80,4 @@ class ReminderFormContainer extends Component {
 export default connect(
     null,
     { addReminder }
-);
+)(ReminderFormContainer);
