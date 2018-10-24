@@ -72,7 +72,7 @@ class App extends Component {
         <MastHead title={formatToMonthYear(days[0])} />
         <div className="calendar">
           <CalendarHeader />
-          <Days days={this.props.calendar.days} />
+          <Days days={this.props.calendar.days} reminders={this.props.calendar.reminders}/>
         </div>
         {reminderModal}
         <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openModal}>Add Reminder</Button>
@@ -85,7 +85,7 @@ const mapStateToProps = state => {
   return {
     calendar: {
       days: state.days,
-      reminders: state.days
+      reminders: state.reminders
     }
   }
 }
