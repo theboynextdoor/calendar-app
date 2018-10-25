@@ -8,6 +8,12 @@
     width: 14.2857143%;
 }
 
+.calendar__header {
+    width: 14.2857143%;
+    border-left: 1px solid #e0e0e0;
+    box-sizing: border-box;
+}
+
 .calendar__label {
     margin-left: .8em;
 }
