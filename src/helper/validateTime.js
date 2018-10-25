@@ -1,6 +1,4 @@
-var format = require('date-fns/format');
-
-function isValidTime(time) {
+export function isValidTime(time) {
     if (typeof time !== "string") {
         return false; 
     }
@@ -15,10 +13,10 @@ function isValidTime(time) {
     return timeRegex.test(trimmedTime);
 }
 
-function to24hrFormat(time) {
+export function to24hrFormat(time) {
     // if the time is invalid it will throw an error
     if (!isValidTime(time)) {
-        throw new Error("Time is not in a correct format.") 
+        return false;  
     }
     
     // Regular exoression is for any combination of "AM" or "PM"
