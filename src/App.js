@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Internal Components
-import Days from "./components/Calendar/Days";
-import CalendarHeader from "./components/Calendar/Header"; 
+import Calendar from "./components/Calendar"; 
 import Button from "./components/Button";
 import Modal from "./components/Modal"; 
 import Overlay from "./components/Overlay";
@@ -18,7 +17,7 @@ import "./util.css";
 import "./App.css";
 
 // Images 
-import logo from "./logo.svg";
+import "./logo.svg";
 
 class App extends Component { 
   constructor(props) {
@@ -48,9 +47,9 @@ class App extends Component {
     this.setState({
       isModalOpen: false
     });
-        
-    console.log("wtf");
+
   }
+    
   // <Days days={this.props.calendar.days}/>
   render() {
     var days = Object.keys(this.props.calendar.days);
@@ -63,17 +62,14 @@ class App extends Component {
         </Modal>
       </Overlay>
     );
-      
+    
           
     let reminderModal = isModalOpen ? modalElement : null; 
     
     return (
       <div className="container">
         <MastHead title={formatToMonthYear(days[0])} />
-        <div className="calendar">
-          <CalendarHeader />
-          <Days days={this.props.calendar.days} reminders={this.props.calendar.reminders}/>
-        </div>
+        <Calendar />
         {reminderModal}
         <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openModal}>Add Reminder</Button>
       </div>

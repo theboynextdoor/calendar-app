@@ -1,6 +1,5 @@
 .calendar__day {
     border-left: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
     box-sizing: border-box;
     color: #333;
     height: 148px;
@@ -18,8 +17,13 @@
     margin-left: .8em;
 }
 
-.calendar__row {
+.calendar__row,
+.calendar__week {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+}
+
+.calendar__week {
+    border-bottom: 1px solid #e0e0e0;
 }

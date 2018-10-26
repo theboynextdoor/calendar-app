@@ -20,7 +20,7 @@ function Week(props) {
                   day={getDate(day)} 
                   style={(index === 0) ? _styleDay(getDay(day)): {}}>
                   
-                  {props.day.reminders.map((reminder) => (<Reminder reminder={props.reminders[reminder]} />))}
+                  {props.days[day].reminders.map((reminder) => (<Reminder reminder={props.reminders[reminder]} />))}
                   
                 </Day>
               );
