@@ -9,7 +9,7 @@ function Reminders(props) {
       props.reminders.sort((a, b) => compareDesc(a.startTime, b.startTime)) :
       props.reminders.sort((a, b) => compareAsc(a.startTime, b.startTime));
       
-  reminders = reminders.map((reminder) => (<Reminder reminder={reminder} />));
+  reminders = reminders.map((reminder) => (<Reminder reminder={reminder} key={reminder.id} />));
   
   return (
     <div className="reminders">
