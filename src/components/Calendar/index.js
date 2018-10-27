@@ -5,6 +5,7 @@ import Week from './Week';
 import Header from './Header';
 import Day from './Day';
 import Reminders from '../Reminder/Reminders';
+import ReminderForm from '../ReminderForm';
 
 // Util
 import getDate from 'date-fns/get_date';
@@ -18,14 +19,21 @@ import getYear from "date-fns/get_year";
 class Calendar extends Component {
     constructor(props) {
         super(props); 
+        this.state = {
+            isFormDisplayed: false
+        }
         
         this.handleClickingReminder = this.handleClickingReminder.bind(this);
     }
     
     handleClickingReminder(event, id) {
-        let { reminders } = this.props; 
+        let { reminders } = this.props;
+        let reminder = reminders[id]; 
         
-        console.log(reminders[id]);
+        this.setState({
+            isFormDisplayed: true, 
+            reminderId: id
+        });
     }
     
     getDayReminders(dayId) {
