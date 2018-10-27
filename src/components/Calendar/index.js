@@ -5,18 +5,28 @@ import Week from './Week';
 import Header from './Header';
 import Day from './Day';
 import Reminders from '../Reminder/Reminders';
+
 // Util
 import getDate from 'date-fns/get_date';
 import isSameWeek from 'date-fns/is_same_week'; 
 import lastDayOfWeek from 'date-fns/last_day_of_week';
 import isEqual from 'date-fns/is_equal';
 import getDay from "date-fns/get_day";
+import getISOWeek from "date-fns/get_iso_week";
+import getYear from "date-fns/get_year";
 
 class Calendar extends Component {
     constructor(props) {
         super(props); 
+        
+        this.handleClickingReminder = this.handleClickingReminder.bind(this);
     }
     
+    handleClickingReminder(event, id) {
+        let { reminders } = this.props; 
+        
+        console.log(reminders[id]);
+    }
     
     getDayReminders(dayId) {
         let day = this.props.days[dayId]; 
@@ -48,7 +58,7 @@ class Calendar extends Component {
                     style={nth === 0 ? _styleDay(getDay(dates[nth])) : {}}    
                 >
                     {
-                        <Reminders reminders={this.getDayReminders(dates[nth])} /> 
+                        <Reminders reminders={this.getDayReminders(dates[nth])} onClick={this.handleClickingReminder}/> 
                     }
                 </Day>
             );
@@ -56,7 +66,7 @@ class Calendar extends Component {
             if(isEqual(currentWeek, lastDayOfWeek(dates[nth]))) {
                 week.push(dayElement); 
             } else {
-                weeks.push(<div className="calendar__week">{week}</div>); 
+                weeks.push(<div className="calendar__week" key={getISOWeek(dates[nth]) + "-" + getYear(dates[nth])}>{week}</div>); 
                 // reset week
                 week = []; 
                 // add new day to the empty week
