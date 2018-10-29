@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Components 
-import Overlay from "../Overlay";
-import Modal from "../Modal"
 import ReminderForm from "./index";
 
 // Utils
@@ -12,21 +10,36 @@ import addMinutes from "date-fns/add_minutes";
 import uniqid from "uniqid";
 import { to24hrFormat, isValidTime } from "../../helper/validateTime";
 
-import { addReminder } from "../../actions/actions.js";
+// Action creator
+import { addReminder, deleteReminder, editReminder } from "../../actions/actions.js";
+
+// TODO:
+// 1. Round all time to the nearest half hour, unless user specifically change the value. 
+// 2. endTime's time cannot be before startTime on the same date, e.g. date = Dec 10, 2018 endTime = 10:30am startTime = 11:30am
+// 3. Validate if user is inputing correct time format, e.g. if user inputs 8:30zm indicate their is an error
+// 4. Reformat user date input to the correct format, e.g. user inputs "December 31, 2018" => "Dec 31, 2018" :D 
 
 class ReminderFormContainer extends Component {
   constructor(props) {
     super(props);
+    
     let now = new Date(); 
+    
+    let title = this.props.title || ""; 
+    let date = this.props.date || now; 
+    let startTime = this.props.startTime || now;
+    let endTime = this.props.endTime || addMinutes(now, 30);
+    
     this.state = {
-        titleFieldVal: "", 
-        dateFieldVal: format(now, "MMM D, YYYY"),
-        startTimeFieldVal: format(now, "h:mma"),
-        endTimeFieldVal: format(addMinutes(now, 30), "h:mma")  
+      title: title, 
+      date: format(date, "MMM D, YYYY"),
+      startTime: format(startTime, "h:mma"),
+      endTime: format(endTime, "h:mma")  
     }
     
     this.handleAddReminder = this.handleAddReminder.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.handleEditReminder = this.handleEditReminder.bind(this);
   }
     
   handleFieldChange(state, e) {
@@ -34,45 +47,69 @@ class ReminderFormContainer extends Component {
       [state]: e.target.value
     });
   }
+  
+  handleEditReminder(e) {
+    // We need the id to change the form
+    let { id } = this.props; 
+    let { title, date, startTime, endTime } = this.state; 
     
+    date = format(date, "YYYY-MM-DD"); 
+    startTime = to24hrFormat(startTime);
+    endTime = to24hrFormat(endTime);
+    
+    let payload = {
+      id: id, 
+      title: title,
+      date: date, 
+      startTime: format(`${date} ${startTime}`),
+      endTime: format(`${date} ${endTime}`)
+    };
+    
+    this.props.editReminder(payload);
+    
+    // Close modal window
+  }
+  
   handleAddReminder() {
-    let { dateFieldVal, startTimeFieldVal, endTimeFieldVal, titleFieldVal } = this.state;
+    let { date, startTime, endTime, title } = this.state;
     
-    let date = format(dateFieldVal, "YYYY-MM-DD"); 
-    startTimeFieldVal = to24hrFormat(startTimeFieldVal);
-    endTimeFieldVal = to24hrFormat(endTimeFieldVal);
+    date = format(date, "YYYY-MM-DD"); 
+    startTime = to24hrFormat(startTime);
+    endTime = to24hrFormat(endTime);
     
     var payload = {
       id: uniqid("r-"),
-      title: titleFieldVal,
+      title: title,
       date: date,
-      startTime: format(`${date} ${startTimeFieldVal}`),
-      endTime: format(`${date} ${endTimeFieldVal}`)
+      startTime: format(`${date} ${startTime}`),
+      endTime: format(`${date} ${endTime}`)
     };
     
     this.props.addReminder(payload);  
     
     this.setState({       
-      titleFieldVal: "", 
-      dateFieldVal: "",
-      startTimeFieldVal: "",
-      endTimeFieldVal: "" 
+      title: "", 
+      date: "",
+      startTime: "",
+      endTime: "" 
     });
     }
   
   render() {
-    let { titleFieldVal, dateFieldVal, startTimeFieldVal, endTimeFieldVal } = this.state;
+    let { title, date, startTime, endTime } = this.state;
+    let { type } = this.props; 
+    
     return (
       <ReminderForm 
-        dateValue={dateFieldVal}
-        endTimeValue={endTimeFieldVal}
-        startTimeValue={startTimeFieldVal}
-        titleValue={titleFieldVal}
-        onDateFieldChange={(e) => this.handleFieldChange("dateFieldVal", e)}
-        onEndTimeFieldChange={(e) => this.handleFieldChange("endTimeFieldVal", e)}
-        onStartTimeFieldChange={(e) => this.handleFieldChange("startTimeFieldVal", e)}
-        onTitleFieldChange={(e) => this.handleFieldChange("titleFieldVal", e)}
-        onButtonClick={this.handleAddReminder}
+        dateValue={date}
+        endTimeValue={endTime}
+        startTimeValue={startTime}
+        titleValue={title}
+        onDateFieldChange={(e) => this.handleFieldChange("date", e)}
+        onEndTimeFieldChange={(e) => this.handleFieldChange("endTime", e)}
+        onStartTimeFieldChange={(e) => this.handleFieldChange("startTime", e)}
+        onTitleFieldChange={(e) => this.handleFieldChange("title", e)}
+        onButtonClick={ (type === "edit") ? this.handleEditReminder : this.handleAddReminder}
       />
     );  
   }
@@ -80,5 +117,5 @@ class ReminderFormContainer extends Component {
 
 export default connect(
   null,
-  { addReminder }
+  { addReminder, deleteReminder, editReminder }
 )(ReminderFormContainer);

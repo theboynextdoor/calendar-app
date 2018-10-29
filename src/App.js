@@ -47,7 +47,6 @@ class App extends Component {
     this.setState({
       isModalOpen: false
     });
-
   }
     
   // <Days days={this.props.calendar.days}/>
