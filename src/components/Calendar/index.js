@@ -52,6 +52,7 @@ class Calendar extends Component {
         
         this.setState({
             isFormDisplayed: true, 
+            title: reminder.title,
             id: reminder.id, 
             startTime: reminder.startTime, 
             endTime: reminder.endTime,
@@ -121,6 +122,7 @@ class Calendar extends Component {
                         endTime={this.state.endTime}
                         date={this.state.date}
                         id={this.state.id}
+                        hasDeleteBtn={true}
                     />
                 </Modal>
             </Overlay>

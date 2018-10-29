@@ -40,12 +40,29 @@ class ReminderFormContainer extends Component {
     this.handleAddReminder = this.handleAddReminder.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.handleEditReminder = this.handleEditReminder.bind(this);
+    this.handleDeleteReminder = this.handleDeleteReminder.bind(this);
   }
     
   handleFieldChange(state, e) {
     this.setState({
       [state]: e.target.value
     });
+  }
+  
+  handleDeleteReminder(e) {
+    let { id } = this.props; 
+    
+    this.props.deleteReminder(id);
+    
+    // Clear fields
+    this.setState({       
+      title: "", 
+      date: "",
+      startTime: "",
+      endTime: "" 
+    });
+    
+    // close modal
   }
   
   handleEditReminder(e) {
@@ -110,6 +127,8 @@ class ReminderFormContainer extends Component {
         onStartTimeFieldChange={(e) => this.handleFieldChange("startTime", e)}
         onTitleFieldChange={(e) => this.handleFieldChange("title", e)}
         onButtonClick={ (type === "edit") ? this.handleEditReminder : this.handleAddReminder}
+        onDeleteButtonClick={this.handleDeleteReminder}
+        hasDeleteBtn={this.props.hasDeleteBtn}
       />
     );  
   }

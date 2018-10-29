@@ -7,6 +7,17 @@
 .bg-gray {
     background-color: #F5F5F5;
 } 
+
+.btns { 
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.btn--mute {
+    background-color: transparent;
+    color: #4285f4;
+    box-shadow: none;
+}
 /* Row */
 .row {
   display: flex;
@@ -21,6 +32,10 @@
 /* Margin */ 
 .m-t-1 {
     margin-top: 1rem;
+}
+
+.m-r-1 {
+    margin-right: 1rem;
 }
 
 .m-b-1 {

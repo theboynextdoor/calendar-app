@@ -1,7 +1,13 @@
-import React from "react"; 
+import React from "react";
+import PropTypes from "prop-types";
+
 import "./index.css";
 
 function ReminderForm(props) {
+    let deleteButton = (props.hasDeleteBtn) ? 
+                       <button className="btn btn--mute m-r-1" onClick={props.onDeleteButtonClick}>DELETE</button> : 
+                       null;
+
     return (
         <div className="reminder-form">
             <input 
@@ -42,9 +48,15 @@ function ReminderForm(props) {
                     />
                 </div>
             </div>
-            <button className="btn m-t-1" onClick={props.onButtonClick}>SAVE</button>
+            <div className="btns m-t-1">
+                <button className="btn" onClick={props.onButtonClick}>SAVE</button>
+                {deleteButton}
+            </div>
         </div>
     ); 
 }
 
+ReminderForm.defaultProps = {
+    hasDeleteBtn: false
+}
 export default ReminderForm;
