@@ -8,6 +8,8 @@ import Modal from "./components/Modal";
 import Overlay from "./components/Overlay";
 import MastHead from "./components/MastHead";
 import ReminderForm from "./components/ReminderForm/Container";
+import ColorPicker from "./components/ColorPicker";
+import Dropdown from "./components/ColorPicker/Dropdown";
 
 // Util Functions
 import formatToMonthYear from "./helper/formatToMonthYear";
@@ -65,12 +67,17 @@ class App extends Component {
           
     let reminderModal = isModalOpen ? modalElement : null; 
     
+    let colors = [
+      { hex: "#ff6347", name: "Tomato"},
+      { hex: "#fc8eac", name: "Flamingo"},
+      { hex: "#f28500", name: "Tangerine"},
+      { hex: "#8f9779", name: "Sage"},
+      
+    ];
     return (
       <div className="container">
-        <MastHead title={formatToMonthYear(days[0])} />
-        <Calendar />
-        {reminderModal}
-        <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openModal}>Add Reminder</Button>
+        <ColorPicker colors={colors}/>
+        <Dropdown />
       </div>
     );
   }
