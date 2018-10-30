@@ -56,7 +56,8 @@ class Calendar extends Component {
             id: reminder.id, 
             startTime: reminder.startTime, 
             endTime: reminder.endTime,
-            date: reminder.date
+            date: reminder.date,
+            color: reminder.color
         });
     }
     
@@ -123,6 +124,7 @@ class Calendar extends Component {
                         date={this.state.date}
                         id={this.state.id}
                         hasDeleteBtn={true}
+                        color={this.state.color}
                     />
                 </Modal>
             </Overlay>

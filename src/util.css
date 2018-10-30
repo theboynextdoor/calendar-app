@@ -18,11 +18,13 @@
     color: #4285f4;
     box-shadow: none;
 }
+
 /* Row */
 .row {
   display: flex;
   flex-direction: row;
   width: 100%;
+  position: relative;
 }
 
 .row--center-x {
@@ -55,8 +57,8 @@
     margin-right: .5rem;
 }
 
-.btn--droped-down {
-    background: #dddddd;
+.btn--dropdown {
+    background: #F5F5F5;
     box-shadow: none;
     display: flex;
     align-items: center;

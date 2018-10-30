@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ColorPicker from "../ColorPicker";
 
 import "./index.css";
 
@@ -10,15 +11,24 @@ function ReminderForm(props) {
 
     return (
         <div className="reminder-form">
-            <input 
-                type="text" 
-                className="input-field input-field--title"
-                onChange={props.onTitleFieldChange}
-                value={props.titleValue}
-                aria-label="Enter reminder's title here"
-                required
-                placeholder="Add Title"
-            />
+            <div className="row m-t-1">
+                <input 
+                    type="text" 
+                    className="input-field input-field--title"
+                    onChange={props.onTitleFieldChange}
+                    value={props.titleValue}
+                    aria-label="Enter reminder's title here"
+                    required
+                    placeholder="Add Title"
+                />
+                <ColorPicker 
+                    colors={props.colors}
+                    color={props.color}
+                    onButtonClick={props.onColorPickerButtonClick}
+                    onOptionClick={props.onColorPickerOptionClick}
+                    isOptionsDisplayed={props.isOptionsDisplayed}
+                />
+            </div>
             <div className="row row--center-x m-t-1 bg-gray">
                 <input 
                     type="text"

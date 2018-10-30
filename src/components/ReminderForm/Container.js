@@ -23,6 +23,7 @@ class ReminderFormContainer extends Component {
   constructor(props) {
     super(props);
     
+    // this is a private variable for the current date 
     let now = new Date(); 
     
     let title = this.props.title || ""; 
@@ -34,15 +35,38 @@ class ReminderFormContainer extends Component {
       title: title, 
       date: format(date, "MMM D, YYYY"),
       startTime: format(startTime, "h:mma"),
-      endTime: format(endTime, "h:mma")  
+      endTime: format(endTime, "h:mma"),
+      isOptionsDisplayed: false, 
+      color: this.props.color || { hex: "#ff6347",  name: "Tomato"}, 
+      colors: [
+        { hex: "#ff6347", name: "Tomato"},
+        { hex: "#fc8eac", name: "Flamingo"},
+        { hex: "#f28500", name: "Tangerine"},
+        { hex: "#8f9779", name: "Sage"},
+      ]
     }
     
     this.handleAddReminder = this.handleAddReminder.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
     this.handleEditReminder = this.handleEditReminder.bind(this);
     this.handleDeleteReminder = this.handleDeleteReminder.bind(this);
+    this.handleColorPickerButtonClick = this.handleColorPickerButtonClick.bind(this);
+    this.handleColorPickerOptionClick = this.handleColorPickerOptionClick.bind(this);
   }
     
+  handleColorPickerOptionClick(e) {
+    this.setState({
+      isOptionsDisplayed: false,
+      color: this.state.colors[e.target.value]
+    });
+  }
+  
+  handleColorPickerButtonClick(e) {
+    this.setState({
+      isOptionsDisplayed: true
+    });
+  }
+  
   handleFieldChange(state, e) {
     this.setState({
       [state]: e.target.value
@@ -68,7 +92,7 @@ class ReminderFormContainer extends Component {
   handleEditReminder(e) {
     // We need the id to change the form
     let { id } = this.props; 
-    let { title, date, startTime, endTime } = this.state; 
+    let { title, date, startTime, endTime, color } = this.state; 
     
     date = format(date, "YYYY-MM-DD"); 
     startTime = to24hrFormat(startTime);
@@ -79,7 +103,8 @@ class ReminderFormContainer extends Component {
       title: title,
       date: date, 
       startTime: format(`${date} ${startTime}`),
-      endTime: format(`${date} ${endTime}`)
+      endTime: format(`${date} ${endTime}`),
+      color: color
     };
     
     this.props.editReminder(payload);
@@ -88,7 +113,7 @@ class ReminderFormContainer extends Component {
   }
   
   handleAddReminder() {
-    let { date, startTime, endTime, title } = this.state;
+    let { date, startTime, endTime, title, color } = this.state;
     
     date = format(date, "YYYY-MM-DD"); 
     startTime = to24hrFormat(startTime);
@@ -99,7 +124,8 @@ class ReminderFormContainer extends Component {
       title: title,
       date: date,
       startTime: format(`${date} ${startTime}`),
-      endTime: format(`${date} ${endTime}`)
+      endTime: format(`${date} ${endTime}`),
+      color: color
     };
     
     this.props.addReminder(payload);  
@@ -113,22 +139,30 @@ class ReminderFormContainer extends Component {
     }
   
   render() {
-    let { title, date, startTime, endTime } = this.state;
-    let { type } = this.props; 
-    
+    let { title, date, startTime, endTime, colors, color } = this.state;
+    let { type } = this.props;
+
     return (
       <ReminderForm 
         dateValue={date}
         endTimeValue={endTime}
         startTimeValue={startTime}
         titleValue={title}
+        
         onDateFieldChange={(e) => this.handleFieldChange("date", e)}
         onEndTimeFieldChange={(e) => this.handleFieldChange("endTime", e)}
         onStartTimeFieldChange={(e) => this.handleFieldChange("startTime", e)}
         onTitleFieldChange={(e) => this.handleFieldChange("title", e)}
+        
         onButtonClick={ (type === "edit") ? this.handleEditReminder : this.handleAddReminder}
         onDeleteButtonClick={this.handleDeleteReminder}
+        onColorPickerButtonClick={this.handleColorPickerButtonClick}
+        onColorPickerOptionClick={this.handleColorPickerOptionClick}
+        isOptionsDisplayed={this.state.isOptionsDisplayed}
         hasDeleteBtn={this.props.hasDeleteBtn}
+        
+        colors={colors}
+        color={color}
       />
     );  
   }
