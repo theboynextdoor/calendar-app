@@ -23,118 +23,125 @@ import getYear from "date-fns/get_year";
 // 2. Remove form from view once clicking the "SAVE" button. 
 
 class Calendar extends Component {
-    constructor(props) {
-        super(props); 
-        this.state = {
-            isFormDisplayed: false
-        }
-        
-        this.handleClickingReminder = this.handleClickingReminder.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      isFormDisplayed: false
     }
     
-    getReminder(id) {
-        return this.props.reminders[id]; 
+    this.handleClickingReminder = this.handleClickingReminder.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    
+  }
+
+  getReminder(id) {
+    return this.props.reminders[id]; 
+  }
+  
+  closeModal() {
+    this.setState({
+      isFormDisplayed: false
+    });
+  }
+
+  handleClickingReminder(event, id) {
+    let reminder = this.getReminder(id); 
+    
+    this.setState({
+      isFormDisplayed: true, 
+      title: reminder.title,
+      id: reminder.id, 
+      startTime: reminder.startTime, 
+      endTime: reminder.endTime,
+      date: reminder.date,
+      color: reminder.color
+    });
+  }
+  
+  getDayReminders(dayId) {
+    let day = this.props.days[dayId]; 
+    
+    if (!day) {
+        return null; 
     }
     
-    closeModal() {
-        this.setState({
-          isFormDisplayed: false
-        });
-    }
+    let reminders = this.props.reminders; 
     
-    handleClickingReminder(event, id) {
-        let reminder = this.getReminder(id); 
-        
-        this.setState({
-            isFormDisplayed: true, 
-            title: reminder.title,
-            id: reminder.id, 
-            startTime: reminder.startTime, 
-            endTime: reminder.endTime,
-            date: reminder.date,
-            color: reminder.color
-        });
-    }
+    return day.reminders.map((reminder) => {
+        return reminders[reminder];
+    });
+  }
+  
+  renderWeeks() {
+    let days = this.props.days; 
+    let dates = Object.keys(days);
+    let currentWeek = lastDayOfWeek(dates[0]); 
+    let weeks = [];
+    let week = []; 
     
-    getDayReminders(dayId) {
-        let day = this.props.days[dayId]; 
-        
-        if (!day) {
-            return null; 
-        }
-        
-        let reminders = this.props.reminders; 
-        
-        return day.reminders.map((reminder) => {
-            return reminders[reminder];
-        });
-    }
-    
-    renderWeeks() {
-        let days = this.props.days; 
-        let dates = Object.keys(days);
-        let currentWeek = lastDayOfWeek(dates[0]); 
-        let weeks = [];
-        let week = []; 
-        
-        for (let nth = 0; nth <= dates.length; nth++) {
-            // create day jsx 
-            let dayElement = ( 
-                <Day 
-                    key={dates[nth]} 
-                    day={(getDate(dates[nth])).toString()}
-                    style={nth === 0 ? _styleDay(getDay(dates[nth])) : {}}    
-                >
-                    {
-                        <Reminders reminders={this.getDayReminders(dates[nth])} onClick={this.handleClickingReminder}/> 
-                    }
-                </Day>
-            );
-            
-            if(isEqual(currentWeek, lastDayOfWeek(dates[nth]))) {
-                week.push(dayElement); 
-            } else {
-                weeks.push(<div className="calendar__week" key={getISOWeek(dates[nth]) + "-" + getYear(dates[nth])}>{week}</div>); 
-                // reset week
-                week = []; 
-                // add new day to the empty week
-                week.push(dayElement);
-                
-                currentWeek = lastDayOfWeek(dates[nth]);
+    for (let nth = 0; nth <= dates.length; nth++) {
+      // create day jsx 
+      let dayElement = ( 
+        <Day 
+            key={dates[nth]} 
+            day={(getDate(dates[nth])).toString()}
+            style={nth === 0 ? _styleDay(getDay(dates[nth])) : {}}    
+        >
+            {
+                <Reminders reminders={this.getDayReminders(dates[nth])} onClick={this.handleClickingReminder}/> 
             }
-        }
-    
-        return weeks; 
-    }
-    
-    render() {
-        let reminderForm = (
-            <Overlay classNames={["center-x-y"]}>
-                <Modal onClick={this.closeModal}>
-                    <ReminderForm 
-                        type="edit"
-                        title={this.state.title}
-                        startTime={this.state.startTime}
-                        endTime={this.state.endTime}
-                        date={this.state.date}
-                        id={this.state.id}
-                        hasDeleteBtn={true}
-                        color={this.state.color}
-                    />
-                </Modal>
-            </Overlay>
-        ); 
+        </Day>
+      );
+      
+      if(isEqual(currentWeek, lastDayOfWeek(dates[nth]))) {
+        week.push(dayElement); 
+      } else {
+        weeks.push(<div className="calendar__week" key={getISOWeek(dates[nth]) + "-" + getYear(dates[nth])}>{week}</div>); 
+        // reset week
+        week = []; 
+        // add new day to the empty week
+        week.push(dayElement);
         
-        return (
-            <div className="calendar">
-                <Header />
-                {this.renderWeeks()}
-                {this.state.isFormDisplayed ? reminderForm : null}
-            </div>
-        ); 
+        currentWeek = lastDayOfWeek(dates[nth]);
+      }
     }
+  
+    return weeks; 
+  }
+  
+  renderReminderForm() {
+   return (
+      <Overlay classNames={["center-x-y"]}>
+        <Modal onClick={this.closeModal}>
+          <ReminderForm 
+              type="edit"
+              title={this.state.title}
+              startTime={this.state.startTime}
+              endTime={this.state.endTime}
+              date={this.state.date}
+              id={this.state.id}
+              hasDeleteBtn={true}
+              color={this.state.color}
+          />
+        </Modal>
+      </Overlay>   
+    ) 
+  }
+  
+  render() {
+    let { isFormDisplayed } = this.state; 
+    let reminderForm = isFormDisplayed ? this.renderReminderForm : null; 
+    let weeks = this.renderWeeks();
+    
+    return (
+      <div className="calendar">
+        <Header />
+        {weeks}
+        {reminderForm}
+      </div>
+    ); 
+  }
 }
 
 function _styleDay(num) {
@@ -145,10 +152,10 @@ function _styleDay(num) {
 }
 
 const mapStateToProps = state => {
-    return {
-        days: state.days, 
-        reminders: state.reminders
-    }
+  return {
+    days: state.days, 
+    reminders: state.reminders
+  }
 }
 
 export default connect(mapStateToProps)(Calendar);

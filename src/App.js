@@ -8,7 +8,6 @@ import Modal from "./components/Modal";
 import Overlay from "./components/Overlay";
 import MastHead from "./components/MastHead";
 import ReminderForm from "./components/ReminderForm/Container";
-import ColorPicker from "./components/ColorPicker";
 
 // Util Functions
 import formatToMonthYear from "./helper/formatToMonthYear";
