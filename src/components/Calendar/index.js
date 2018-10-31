@@ -16,7 +16,7 @@ import isEqual from 'date-fns/is_equal';
 import getDay from "date-fns/get_day";
 import getISOWeek from "date-fns/get_iso_week";
 import getYear from "date-fns/get_year";
-
+import Weeks from "./Views/Weeks";
 
 // TODO 
 // 1. Reminder form doesn't close 
@@ -30,7 +30,8 @@ class Calendar extends Component {
       isFormDisplayed: false
     }
     
-    this.handleClickingReminder = this.handleClickingReminder.bind(this);
+    this.handleReminderClick = this.handleReminderClick.bind(this);
+    this.getRemindersFromDay = this.getRemindersFromDay.bind(this);
     this.closeModal = this.closeModal.bind(this);
     
   }
@@ -45,7 +46,7 @@ class Calendar extends Component {
     });
   }
 
-  handleClickingReminder(event, id) {
+  handleReminderClick(event, id) {
     let reminder = this.getReminder(id); 
     
     this.setState({
@@ -59,55 +60,18 @@ class Calendar extends Component {
     });
   }
   
-  getDayReminders(dayId) {
+  getRemindersFromDay(dayId) {
     let day = this.props.days[dayId]; 
     
     if (!day) {
-        return null; 
+      return null; 
     }
     
     let reminders = this.props.reminders; 
     
     return day.reminders.map((reminder) => {
-        return reminders[reminder];
+      return reminders[reminder];
     });
-  }
-  
-  renderWeeks() {
-    let days = this.props.days; 
-    let dates = Object.keys(days);
-    let currentWeek = lastDayOfWeek(dates[0]); 
-    let weeks = [];
-    let week = []; 
-    
-    for (let nth = 0; nth <= dates.length; nth++) {
-      // create day jsx 
-      let dayElement = ( 
-        <Day 
-            key={dates[nth]} 
-            day={(getDate(dates[nth])).toString()}
-            style={nth === 0 ? _styleDay(getDay(dates[nth])) : {}}    
-        >
-            {
-                <Reminders reminders={this.getDayReminders(dates[nth])} onClick={this.handleClickingReminder}/> 
-            }
-        </Day>
-      );
-      
-      if(isEqual(currentWeek, lastDayOfWeek(dates[nth]))) {
-        week.push(dayElement); 
-      } else {
-        weeks.push(<div className="calendar__week" key={getISOWeek(dates[nth]) + "-" + getYear(dates[nth])}>{week}</div>); 
-        // reset week
-        week = []; 
-        // add new day to the empty week
-        week.push(dayElement);
-        
-        currentWeek = lastDayOfWeek(dates[nth]);
-      }
-    }
-  
-    return weeks; 
   }
   
   renderReminderForm() {
@@ -131,13 +95,17 @@ class Calendar extends Component {
   
   render() {
     let { isFormDisplayed } = this.state; 
-    let reminderForm = isFormDisplayed ? this.renderReminderForm : null; 
-    let weeks = this.renderWeeks();
+    let reminderForm = isFormDisplayed ? this.renderReminderForm() : null; 
+    let dates = Object.keys(this.props.days); 
     
     return (
       <div className="calendar">
         <Header />
-        {weeks}
+        <Weeks 
+          dates={dates} 
+          onClick={this.handleReminderClick} 
+          getReminders={this.getRemindersFromDay}
+        />
         {reminderForm}
       </div>
     ); 
