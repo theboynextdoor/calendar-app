@@ -1,13 +1,13 @@
 import React from 'react';
-import Logo from './Logo';
-import Title from './Title';
+import Logo from './Views/Logo';
+import Title from './Views/Title';
 import './style.css';
 
-function MastHead(props) {
+function MastHead({title}) {
     return (
         <header className='masthead'> 
-            <Logo />
-            <Title title={props.title} />
+            <Logo src="https://www.gstatic.com/images/branding/product/1x/calendar_48dp.png" text="Calendar" />
+            <Title title={title} />
         </header> 
     );
 }

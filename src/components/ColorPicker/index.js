@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
-import OptionsView from './View/OptionsView';
-import ButtonView from './View/ButtonView';
+import OptionsView from './Views/OptionsView';
+import ButtonView from './Views/ButtonView';
 
 function ColorPicker({ color, colors, onOptionClick, onButtonClick, isOptionsDisplayed }) { 
   if (isOptionsDisplayed) {

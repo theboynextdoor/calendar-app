@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
-import Week from './Week';
 import Header from './Header';
 import Day from './Day';
 import Reminders from '../Reminder/Reminders';
@@ -12,13 +11,11 @@ import Overlay from "../Overlay";
 
 // Util
 import getDate from 'date-fns/get_date';
-import isSameWeek from 'date-fns/is_same_week'; 
 import lastDayOfWeek from 'date-fns/last_day_of_week';
 import isEqual from 'date-fns/is_equal';
 import getDay from "date-fns/get_day";
 import getISOWeek from "date-fns/get_iso_week";
 import getYear from "date-fns/get_year";
-import format from "date-fns/format";
 
 
 // TODO 

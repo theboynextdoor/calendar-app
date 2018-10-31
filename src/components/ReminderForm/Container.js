@@ -38,6 +38,8 @@ class ReminderFormContainer extends Component {
       endTime: format(endTime, "h:mma"),
       isOptionsDisplayed: false, 
       color: this.props.color || { hex: "#ff6347",  name: "Tomato"}, 
+      
+      // should be props 
       colors: [
         { hex: "#ff6347", name: "Tomato"},
         { hex: "#fc8eac", name: "Flamingo"},
@@ -148,6 +150,8 @@ class ReminderFormContainer extends Component {
         endTimeValue={endTime}
         startTimeValue={startTime}
         titleValue={title}
+        colors={colors}
+        color={color}
         
         onDateFieldChange={(e) => this.handleFieldChange("date", e)}
         onEndTimeFieldChange={(e) => this.handleFieldChange("endTime", e)}
@@ -160,9 +164,6 @@ class ReminderFormContainer extends Component {
         onColorPickerOptionClick={this.handleColorPickerOptionClick}
         isOptionsDisplayed={this.state.isOptionsDisplayed}
         hasDeleteBtn={this.props.hasDeleteBtn}
-        
-        colors={colors}
-        color={color}
       />
     );  
   }
