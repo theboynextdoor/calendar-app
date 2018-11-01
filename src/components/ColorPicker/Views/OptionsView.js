@@ -1,8 +1,8 @@
 import React from "react";
 
-export default function OptionsView({ colors, onClick }) {
+export default function OptionsView({ colorOptions, onClick }) {
   
-  let colorOptions = colors.map((color, index) => {
+  let co = colorOptions.map((color, index) => {
     return(
       <li
         key={color.name}
@@ -20,7 +20,7 @@ export default function OptionsView({ colors, onClick }) {
   
   return (
     <ul className="color-picker__options">
-      {colorOptions}
+      {co}
     </ul>
   );
 }

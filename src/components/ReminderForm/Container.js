@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Components 
-import ReminderForm from "./index";
+import ReminderForm from "./Views/FormView";
 
 // Utils
 import format from "date-fns/format";
@@ -19,6 +19,7 @@ import { addReminder, deleteReminder, editReminder } from "../../actions/actions
 // 3. Validate if user is inputing correct time format, e.g. if user inputs 8:30zm indicate their is an error
 // 4. Reformat user date input to the correct format, e.g. user inputs "December 31, 2018" => "Dec 31, 2018" :D 
 
+// props(isFormOpen, title, date, startTime, endTime, type, id)
 class ReminderFormContainer extends Component {
   constructor(props) {
     super(props);
@@ -36,46 +37,40 @@ class ReminderFormContainer extends Component {
       date: format(date, "MMM D, YYYY"),
       startTime: format(startTime, "h:mma"),
       endTime: format(endTime, "h:mma"),
-      isOptionsDisplayed: false, 
+      isOptionsDisplayed: false,
       color: this.props.color || { hex: "#ff6347",  name: "Tomato"}, 
-      
-      // should be props 
-      colors: [
+      type: this.props.edit || "edit",
+      id: this.props.id || "",
+      closeForm: false,
+      colorOptions: [
         { hex: "#ff6347", name: "Tomato"},
         { hex: "#fc8eac", name: "Flamingo"},
         { hex: "#f28500", name: "Tangerine"},
         { hex: "#8f9779", name: "Sage"},
       ]
-    }
+    };
     
-    this.handleAddReminder = this.handleAddReminder.bind(this);
     this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.handleEditReminder = this.handleEditReminder.bind(this);
-    this.handleDeleteReminder = this.handleDeleteReminder.bind(this);
-    this.handleColorPickerButtonClick = this.handleColorPickerButtonClick.bind(this);
-    this.handleColorPickerOptionClick = this.handleColorPickerOptionClick.bind(this);
-  }
-    
-  handleColorPickerOptionClick(e) {
-    this.setState({
-      isOptionsDisplayed: false,
-      color: this.state.colors[e.target.value]
-    });
+    this.handleDeleteButtonClick = this.handleDeleteButtonClick.bind(this);
+    this.handleColorButtonClick = this.handleColorButtonClick.bind(this);
+    this.handleColorOptionClick = this.handleColorOptionClick.bind(this);
+    this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
   }
   
-  handleColorPickerButtonClick(e) {
+  handleColorButtonClick(e) {
     this.setState({
       isOptionsDisplayed: true
     });
   }
   
-  handleFieldChange(state, e) {
+  handleColorOptionClick(e) {
     this.setState({
-      [state]: e.target.value
+      isOptionsDisplayed: false,
+      color: this.state.colorOptions[e.target.value]
     });
   }
   
-  handleDeleteReminder(e) {
+  handleDeleteButtonClick(e) {
     let { id } = this.props; 
     
     this.props.deleteReminder(id);
@@ -85,87 +80,78 @@ class ReminderFormContainer extends Component {
       title: "", 
       date: "",
       startTime: "",
-      endTime: "" 
+      endTime: "",
     });
     
     // close modal
   }
   
-  handleEditReminder(e) {
-    // We need the id to change the form
-    let { id } = this.props; 
-    let { title, date, startTime, endTime, color } = this.state; 
-    
-    date = format(date, "YYYY-MM-DD"); 
-    startTime = to24hrFormat(startTime);
-    endTime = to24hrFormat(endTime);
-    
-    let payload = {
-      id: id, 
-      title: title,
-      date: date, 
-      startTime: format(`${date} ${startTime}`),
-      endTime: format(`${date} ${endTime}`),
-      color: color
-    };
-    
-    this.props.editReminder(payload);
-    
-    // Close modal window
+  handleFieldChange(state, e) {
+    this.setState({
+      [state]: e.target.value
+    });
   }
   
-  handleAddReminder() {
+  handleSaveButtonClick(type, e) {
     let { date, startTime, endTime, title, color } = this.state;
     
     date = format(date, "YYYY-MM-DD"); 
     startTime = to24hrFormat(startTime);
     endTime = to24hrFormat(endTime);
     
-    var payload = {
-      id: uniqid("r-"),
+    let payload = {
       title: title,
       date: date,
       startTime: format(`${date} ${startTime}`),
       endTime: format(`${date} ${endTime}`),
       color: color
-    };
-    
-    this.props.addReminder(payload);  
-    
-    this.setState({       
-      title: "", 
-      date: "",
-      startTime: "",
-      endTime: "" 
-    });
     }
+    
+    if (type === "edit") {
+      payload.id = this.props.id; 
+      this.props.editReminder(payload);
+    } else {
+      payload.id = uniqid("r-");
+      this.props.addReminder(payload);
+    }
+    
+    // close modal
+  }
   
   render() {
-    let { title, date, startTime, endTime, colors, color } = this.state;
+    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed } = this.state;
     let { type } = this.props;
-
-    return (
-      <ReminderForm 
-        dateValue={date}
-        endTimeValue={endTime}
-        startTimeValue={startTime}
-        titleValue={title}
-        colors={colors}
+    
+    let form = (
+      <ReminderForm
+        date={date}
         color={color}
+        colorOptions={colorOptions}
+        endTime={endTime}
+        startTime={startTime}
+        title={title}
         
-        onDateFieldChange={(e) => this.handleFieldChange("date", e)}
-        onEndTimeFieldChange={(e) => this.handleFieldChange("endTime", e)}
-        onStartTimeFieldChange={(e) => this.handleFieldChange("startTime", e)}
-        onTitleFieldChange={(e) => this.handleFieldChange("title", e)}
+        onColorButtonClick={this.handleColorButtonClick}
+        onColorOptionClick={this.handleColorOptionClick}
+        onDeleteButtonClick={this.handleDeleteButtonClick}
+        onModalClick={this.props.onModalClick}
+        onSaveButtonClick={(e) => { this.handleSaveButtonClick(type, e) }}
         
-        onButtonClick={ (type === "edit") ? this.handleEditReminder : this.handleAddReminder}
-        onDeleteButtonClick={this.handleDeleteReminder}
-        onColorPickerButtonClick={this.handleColorPickerButtonClick}
-        onColorPickerOptionClick={this.handleColorPickerOptionClick}
-        isOptionsDisplayed={this.state.isOptionsDisplayed}
-        hasDeleteBtn={this.props.hasDeleteBtn}
-      />
-    );  
+        onDateChange={(e) => this.handleFieldChange("date", e)}
+        onEndTimeChange={(e) => this.handleFieldChange("endTime", e)}
+        onStartTimeChange={(e) => this.handleFieldChange("startTime", e)}
+        onTitleChange={(e) => this.handleFieldChange("title", e)}
+        
+        isOptionsDisplayed={isOptionsDisplayed}
+        type={type}
+        />
+    );
+      
+    return (
+      <React.Fragment>
+        {form}
+      </React.Fragment>
+    );
   }
 }
 

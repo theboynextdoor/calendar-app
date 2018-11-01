@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import createMockState, { createMockDays, createMockReminders } from '../test-utils/mocks/createMockState.js';
+import createMockState, { createMockDays, createMockReminders, getState } from '../test-utils/mocks/createMockState.js';
 import { 
     addReminder, 
     editReminder, 
@@ -38,6 +38,19 @@ describe("The days Reducer", () => {
             assert.include(state.days["2018-10-01"].reminders, reminderPayload.id);
             
         });
+    });
+    
+    describe("When EDIT_REMINDER action is dispatched", () => {
+       beforeEach(() => {
+        let s = getState(); 
+       });
+       
+       it("should remove the reminderID from its specified day", () => {
+       });
+       
+       it("should add the reminder ID to its new date (if date was edited)", () => {
+           
+       });
     });
 }); 
 

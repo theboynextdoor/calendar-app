@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 // Internal Components
 import Calendar from "./components/Calendar"; 
 import Button from "./components/Button";
-import Modal from "./components/Modal"; 
-import Overlay from "./components/Overlay";
 import MastHead from "./components/MastHead";
 import ReminderForm from "./components/ReminderForm/Container";
 
@@ -23,61 +21,36 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      isModalOpen: false
+      isFormOpen: false
     };
   
-    this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.closeForm = this.closeForm.bind(this);
+    this.openForm = this.openForm.bind(this);
   }
   
-  handleFieldChange(state, e) {
+  closeForm() {
     this.setState({
-      [state]: e.target.value
+      isFormOpen: false
     });
   }
-  
-  openModal() {
+  openForm() {
     this.setState({
-      isModalOpen: true
+      isFormOpen: true
     })
-  }
-  
-  closeModal() {
-    this.setState({
-      isModalOpen: false
-    });
   }
     
   // <Days days={this.props.calendar.days}/>
   render() {
     var days = Object.keys(this.props.calendar.days);
-    let { isModalOpen } = this.state;
-    
-    let modalElement = (
-      <Overlay classNames={["center-x-y"]}>
-        <Modal onClick={this.closeModal}>
-          <ReminderForm />
-        </Modal>
-      </Overlay>
-    );
-    
-          
-    let reminderModal = isModalOpen ? modalElement : null; 
-    
-    let colors = [
-      { hex: "#ff6347", name: "Tomato"},
-      { hex: "#fc8eac", name: "Flamingo"},
-      { hex: "#f28500", name: "Tangerine"},
-      { hex: "#8f9779", name: "Sage"},
-    ];
+    let { isFormOpen } = this.state;
+  
     return (
       <div className="container">
         <div className="container">
           <MastHead title={formatToMonthYear(days[0])} />
           <Calendar />
-          {reminderModal}
-          <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openModal}>Add Reminder</Button>
+          { isFormOpen ? <ReminderForm onModalClick={this.closeForm} /> : null}
+          <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openForm}>Add Reminder</Button>
         </div>
       </div>
     );

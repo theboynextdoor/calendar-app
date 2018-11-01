@@ -18,7 +18,7 @@ const initialState = {
 function _addReminderForDays(state = {}, action) {
     var reminder = action.reminder; 
     var updatedState = Object.assign({}, state); 
-    
+
     updatedState[reminder.date].reminders.push(reminder.id)
 
     return Object.assign({}, updatedState);    
@@ -33,11 +33,17 @@ function _addReminderForReminders(state = {}, action) {
 
 
 function _editReminderForDays(state, action) {
-    if (!state.hasOwnProperty(action.date)) {
+    let reminder = action.reminder; 
+    
+    if (!state.hasOwnProperty(reminder.date)) {
         return state; 
     }
-    var s = _deleteReminderForDays(state, action); 
-    return _addReminderForDays(s, action); 
+    
+    
+    // erase all reminders pertaining that date 
+    let stateWithoutReminder = _deleteReminderForDays(Object.assign({}, state), {id: reminder.id })
+    
+    return _addReminderForDays(stateWithoutReminder, action); 
 }
 
 function _editReminderForReminders(state = {}, action) {

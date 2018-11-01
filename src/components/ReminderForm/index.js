@@ -22,10 +22,10 @@ function ReminderForm(props) {
                     placeholder="Add Title"
                 />
                 <ColorPicker 
-                    colors={props.colors}
+                    colorOptions={props.colorOptions}
                     color={props.color}
-                    onButtonClick={props.onColorPickerButtonClick}
-                    onOptionClick={props.onColorPickerOptionClick}
+                    onColorButtonClick={props.onColorButtonClick}
+                    onColorOptionClick={props.onColorOptionClick}
                     isOptionsDisplayed={props.isOptionsDisplayed}
                 />
             </div>
@@ -66,7 +66,4 @@ function ReminderForm(props) {
     ); 
 }
 
-ReminderForm.defaultProps = {
-    hasDeleteBtn: false
-}
 export default ReminderForm;

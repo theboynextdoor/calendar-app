@@ -1,11 +1,16 @@
 import React from 'react';
+// Components
+import Reminders from "../../Reminder/Reminders";
+import Day from "./Day";
+
+//Utils 
 import lastDayOfWeek from 'date-fns/last_day_of_week';
 import isEqual from 'date-fns/is_equal';
 import getISOWeek from "date-fns/get_iso_week";
 import getYear from "date-fns/get_year";
 import getDate from "date-fns/get_date"; 
-import Reminders from "../../Reminder/Reminders";
-import Day from "./Day";
+import getDay from "date-fns/get_day";
+
 
 // Day(Key, day, style, reminders)
 function Weeks({dates, onClick, getReminders }) {
@@ -23,7 +28,7 @@ function Weeks({dates, onClick, getReminders }) {
     // create reminder component
     // store reminder component inside day component
     let dayComponent = (
-      <Day key={dates[nth]} day={getDate(dates[nth]).toString()} style={nth === 0 ? _styleDay(dates[nth]) : {}}>
+      <Day key={dates[nth]} day={getDate(dates[nth]).toString()} style={nth === 0 ? _styleDay(getDay(dates[nth])) : {}}>
         <Reminders reminders={getReminders(dates[nth])} onClick={onClick}/>
       </Day>
     ); 

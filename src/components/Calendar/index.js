@@ -3,19 +3,9 @@ import { connect } from "react-redux";
 
 import Header from './Header';
 import Day from './Day';
-import Reminders from '../Reminder/Reminders';
 import ReminderForm from '../ReminderForm/Container';
 
-import Modal from "../Modal";
-import Overlay from "../Overlay";
-
 // Util
-import getDate from 'date-fns/get_date';
-import lastDayOfWeek from 'date-fns/last_day_of_week';
-import isEqual from 'date-fns/is_equal';
-import getDay from "date-fns/get_day";
-import getISOWeek from "date-fns/get_iso_week";
-import getYear from "date-fns/get_year";
 import Weeks from "./Views/Weeks";
 
 // TODO 
@@ -27,30 +17,29 @@ class Calendar extends Component {
     super(props);
     
     this.state = {
-      isFormDisplayed: false
+      isFormOpen: false
     }
     
+    this.closeModal = this.closeModal.bind(this);
     this.handleReminderClick = this.handleReminderClick.bind(this);
     this.getRemindersFromDay = this.getRemindersFromDay.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    
-  }
-
-  getReminder(id) {
-    return this.props.reminders[id]; 
   }
   
-  closeModal() {
+  closeModal(e) {
     this.setState({
-      isFormDisplayed: false
+      isFormOpen: false
     });
+  }
+  
+  getReminder(id) {
+    return this.props.reminders[id]; 
   }
 
   handleReminderClick(event, id) {
     let reminder = this.getReminder(id); 
     
     this.setState({
-      isFormDisplayed: true, 
+      isFormOpen: true,
       title: reminder.title,
       id: reminder.id, 
       startTime: reminder.startTime, 
@@ -76,26 +65,22 @@ class Calendar extends Component {
   
   renderReminderForm() {
    return (
-      <Overlay classNames={["center-x-y"]}>
-        <Modal onClick={this.closeModal}>
-          <ReminderForm 
-              type="edit"
-              title={this.state.title}
-              startTime={this.state.startTime}
-              endTime={this.state.endTime}
-              date={this.state.date}
-              id={this.state.id}
-              hasDeleteBtn={true}
-              color={this.state.color}
-          />
-        </Modal>
-      </Overlay>   
+    <ReminderForm 
+        type="edit"
+        title={this.state.title}
+        startTime={this.state.startTime}
+        endTime={this.state.endTime}
+        date={this.state.date}
+        id={this.state.id}
+        color={this.state.color}
+        onModalClick={this.closeModal}
+    />
     ) 
   }
   
   render() {
-    let { isFormDisplayed } = this.state; 
-    let reminderForm = isFormDisplayed ? this.renderReminderForm() : null; 
+    let { isFormOpen } = this.state; 
+    let reminderForm = isFormOpen ? this.renderReminderForm() : null; 
     let dates = Object.keys(this.props.days); 
     
     return (
@@ -109,13 +94,6 @@ class Calendar extends Component {
         {reminderForm}
       </div>
     ); 
-  }
-}
-
-function _styleDay(num) {
-  return { 
-    marginLeft: num * 14.2857143 + "%",
-    borderLeft: "1px solid #e0e0e0"
   }
 }
 
