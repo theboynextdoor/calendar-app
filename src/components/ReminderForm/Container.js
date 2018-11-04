@@ -8,6 +8,7 @@ import ReminderForm from "./Views/FormView";
 import format from "date-fns/format";
 import addMinutes from "date-fns/add_minutes";
 import uniqid from "uniqid";
+import isValid from "date-fns/is_valid";
 import { to24hrFormat, isValidTime } from "../../helper/validateTime";
 
 // Action creator
@@ -42,6 +43,12 @@ class ReminderFormContainer extends Component {
       type: this.props.edit || "edit",
       id: this.props.id || "",
       closeForm: false,
+      error: false, 
+      validationErrors: {
+        date: false, 
+        startTime: false, 
+        endTime: false
+      },
       colorOptions: [
         { hex: "#ff6347", name: "Tomato"},
         { hex: "#fc8eac", name: "Flamingo"},
@@ -55,6 +62,26 @@ class ReminderFormContainer extends Component {
     this.handleColorButtonClick = this.handleColorButtonClick.bind(this);
     this.handleColorOptionClick = this.handleColorOptionClick.bind(this);
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
+    
+    this.handleDateBlur = this.handleDateBlur.bind(this);
+  }
+  
+  handleDateBlur() {
+    let { date, validationErrors } = this.state; 
+
+    if (isValid(new Date(date))) {
+      this.setState({ 
+        date: format(date, "MMM D, YYYY"), 
+        error: false,
+        validationErrors: { ...validationErrors, date: false}
+      });
+    } else {
+      this.setState({
+        error: true,
+        validationErrors: { ...validationErrors, date: true }
+      })
+    }
+    
   }
   
   handleColorButtonClick(e) {
@@ -119,7 +146,7 @@ class ReminderFormContainer extends Component {
   }
   
   render() {
-    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed } = this.state;
+    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed, validationErrors } = this.state;
     let { type } = this.props;
     
     let form = (
@@ -142,8 +169,12 @@ class ReminderFormContainer extends Component {
         onStartTimeChange={(e) => this.handleFieldChange("startTime", e)}
         onTitleChange={(e) => this.handleFieldChange("title", e)}
         
+        onDateBlur={this.handleDateBlur}
+        
         isOptionsDisplayed={isOptionsDisplayed}
         type={type}
+        
+        hasDateError={validationErrors.date}
         />
     );
       

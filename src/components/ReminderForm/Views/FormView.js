@@ -20,9 +20,10 @@ const TitleInput= (props) => (
 const DateInput = (props) => (
   <input 
       type="text"
-      className="input-field input-field--date w-50"
+      className={props.hasError ? "input-field input-field--error input-field--date w-50" : "input-field input-field--date w-50"}
       arial-label="Enter date here"
       onChange={props.onChange}
+      onBlur={props.onBlur}
       value={props.date}
       required
   />
@@ -67,7 +68,7 @@ export default function ReminderForm(props) {
               />
           </div>
           <div className="row row--center-x m-t-1 bg-gray">
-            <DateInput date={props.date} onChange={props.onDateChange} />
+            <DateInput date={props.date} onChange={props.onDateChange} onBlur={props.onDateBlur} hasError={props.hasDateError}/>
             <div className="row row--center-x w-50">
               <StartTimeInput startTime={props.startTime} onChange={props.onStartTimeChange} />
               <div className="seperator">&ndash;</div>

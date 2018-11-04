@@ -37,3 +37,9 @@
 .input-field--title:focus {
     outline: none;
 }
+
+.input-field--error,
+.input-field--error:focus {
+    border-bottom: 2px solid #cc0000 !important;
+    background-color: #f9e5e5;
+}
