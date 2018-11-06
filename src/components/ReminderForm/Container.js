@@ -19,8 +19,8 @@ import uniqid from "uniqid";
 import { addReminder, deleteReminder, editReminder } from "../../actions/actions.js";
 
 // TODO:
-// 1. Round all time to the nearest half hour, unless user specifically change the value. 
-// 2. endTime's time cannot be before startTime on the same date, e.g. date = Dec 10, 2018 endTime = 10:30am startTime = 11:30am
+// 1. Round all time to the nearest half hour, unless user specifically change the value. [x]
+// 2. endTime's time cannot be before startTime on the same date, e.g. date = Dec 10, 2018 endTime = 10:30am startTime = 11:30am [x]
 // 3. Validate if user is inputing correct time format, e.g. if user inputs 8:30zm indicate their is an error
 // 4. Reformat user date input to the correct format, e.g. user inputs "December 31, 2018" => "Dec 31, 2018" :D 
 
@@ -46,13 +46,12 @@ class ReminderFormContainer extends Component {
       color: this.props.color || { hex: "#ff6347",  name: "Tomato"}, 
       type: this.props.edit || "edit",
       id: this.props.id || "",
-      closeForm: false,
       validationErrors: {
         date: false, 
         startTime: false, 
         endTime: false
       },
-      isModalOpen: false, 
+      isModalOpen: this.props.isModalOpen || false, 
       colorOptions: [
         { hex: "#ff6347", name: "Tomato"},
         { hex: "#fc8eac", name: "Flamingo"},
@@ -258,7 +257,7 @@ class ReminderFormContainer extends Component {
     return (
       <React.Fragment>
         {isModalOpen ? form : null}
-         <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button>
+        <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button> 
       </React.Fragment>
     );
   }

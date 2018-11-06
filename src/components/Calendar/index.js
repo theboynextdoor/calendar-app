@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import ReminderForm from "../ReminderForm/Container";
 
-import Header from './Header';
-import Day from './Day';
-import ReminderForm from '../ReminderForm/Container';
-
-// Util
+// Components
+import MastHead from "../MastHead";
+import Header from "./Views/Header";
 import Weeks from "./Views/Weeks";
 
+import format from "date-fns/format";
+
 // TODO 
-// 1. Reminder form doesn't close 
+// 1. Reminder form doesn't display
 // 2. Remove form from view once clicking the "SAVE" button. 
 
 class Calendar extends Component {
@@ -17,29 +18,20 @@ class Calendar extends Component {
     super(props);
     
     this.state = {
-      isFormOpen: false
+    
     }
     
-    this.closeModal = this.closeModal.bind(this);
     this.handleReminderClick = this.handleReminderClick.bind(this);
     this.getRemindersFromDay = this.getRemindersFromDay.bind(this);
   }
   
-  closeModal(e) {
-    this.setState({
-      isFormOpen: false
-    });
-  }
+  /** Handlers **/
   
-  getReminder(id) {
-    return this.props.reminders[id]; 
-  }
-
   handleReminderClick(event, id) {
     let reminder = this.getReminder(id); 
     
     this.setState({
-      isFormOpen: true,
+      isModalOpen: true,
       title: reminder.title,
       id: reminder.id, 
       startTime: reminder.startTime, 
@@ -47,6 +39,11 @@ class Calendar extends Component {
       date: reminder.date,
       color: reminder.color
     });
+  }
+  
+  /** Getters **/
+  getReminder(id) {
+    return this.props.reminders[id]; 
   }
   
   getRemindersFromDay(dayId) {
@@ -73,16 +70,17 @@ class Calendar extends Component {
         date={this.state.date}
         id={this.state.id}
         color={this.state.color}
+        isModalOpen={this.state.isModalOpen}
     />
     ) 
   }
   
   render() {
-    let { isFormOpen } = this.state; 
-    let reminderForm = isFormOpen ? this.renderReminderForm() : null; 
     let dates = Object.keys(this.props.days); 
     
     return (
+      <div className="container">
+      <MastHead title={format(dates[0], "MMMM GGGG")} />
       <div className="calendar">
         <Header />
         <Weeks 
@@ -90,7 +88,8 @@ class Calendar extends Component {
           onClick={this.handleReminderClick} 
           getReminders={this.getRemindersFromDay}
         />
-        {reminderForm}
+        <ReminderForm />
+      </div>
       </div>
     ); 
   }

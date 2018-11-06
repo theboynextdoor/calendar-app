@@ -8,17 +8,6 @@
     background-color: #F5F5F5;
 } 
 
-.btns { 
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.btn--mute {
-    background-color: transparent;
-    color: #4285f4;
-    box-shadow: none;
-}
-
 /* Row */
 .row {
   display: flex;
@@ -32,6 +21,14 @@
 }
 
 /* Margin */ 
+.m-l-auto {
+    margin-left: auto;
+}
+
+.m-l-1 {
+    margin-left: 1rem;
+}
+
 .m-t-1 {
     margin-top: 1rem;
 }
@@ -57,9 +54,56 @@
     margin-right: .5rem;
 }
 
+/* Buttons */
+.btn {
+    /* Generic */
+    background-color: #4285f4;
+    border-radius: 3px;
+    border-width: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .6);
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.4rem 0.8rem;
+    transition: background-color .3s;
+    
+}
+
+.btns { 
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 .btn--dropdown {
     background: #F5F5F5;
     box-shadow: none;
     display: flex;
     align-items: center;
+}
+
+.btn--float {
+    bottom: 1.5rem;
+    position: fixed;
+    right: 1.5rem;
+}
+
+.bg-red {
+    background-color: #e74c3c;
+}
+
+.btn--round {
+    border-radius: 100px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .6);
+    height: 90px;
+    width: 90px;
+}
+
+.btn--square {
+    border-radius: 3px;
+}
+
+.btn--mute {
+    background-color: transparent;
+    color: #4285f4;
+    box-shadow: none;
 }
