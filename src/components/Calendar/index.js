@@ -73,7 +73,6 @@ class Calendar extends Component {
         date={this.state.date}
         id={this.state.id}
         color={this.state.color}
-        onModalClick={this.closeModal}
     />
     ) 
   }

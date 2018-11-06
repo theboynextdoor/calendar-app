@@ -38,7 +38,8 @@ class App extends Component {
       isFormOpen: true
     })
   }
-    
+  //  <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openForm}>Add Reminder</Button>
+
   // <Days days={this.props.calendar.days}/>
   render() {
     var days = Object.keys(this.props.calendar.days);
@@ -49,8 +50,7 @@ class App extends Component {
         <div className="container">
           <MastHead title={formatToMonthYear(days[0])} />
           <Calendar />
-          { isFormOpen ? <ReminderForm onModalClick={this.closeForm} /> : null}
-          <Button classNames={["bg-red", "btn--round", "btn--float"]} onClick={this.openForm}>Add Reminder</Button>
+          <ReminderForm />
         </div>
       </div>
     );

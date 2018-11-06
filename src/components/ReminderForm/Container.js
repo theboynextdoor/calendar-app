@@ -49,6 +49,7 @@ class ReminderFormContainer extends Component {
         startTime: false, 
         endTime: false
       },
+      isModalOpen: false, 
       colorOptions: [
         { hex: "#ff6347", name: "Tomato"},
         { hex: "#fc8eac", name: "Flamingo"},
@@ -66,8 +67,21 @@ class ReminderFormContainer extends Component {
     this.handleDateBlur = this.handleDateBlur.bind(this);
     this.handleStartTimeBlur = this.handleStartTimeBlur.bind(this);
     this.handleEndTimeBlur = this.handleEndTimeBlur.bind(this);
+    this.handleReminderButtonClick = this.handleReminderButtonClick.bind(this);
+    this.handleModalClick = this.handleModalClick.bind(this);
   }
   
+  handleModalClick() {
+    this.setState({
+      isModalOpen: false
+    });  
+  }
+  
+  handleReminderButtonClick() {
+    this.setState({
+      isModalOpen: true
+    });
+  }
   handleStartTimeBlur() {
     let { startTime, validationErrors, date, endTime  } = this.state; 
     let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
@@ -171,6 +185,7 @@ class ReminderFormContainer extends Component {
     }
 
     if (!hasError && title !== '') {
+      
       if (type === "edit") {
         payload.id = this.props.id; 
         this.props.editReminder(payload);
@@ -178,6 +193,10 @@ class ReminderFormContainer extends Component {
         payload.id = uniqid("r-");
         this.props.addReminder(payload);
       }
+      
+      this.setState({
+        isModalOpen: false
+      });
     }
     
     // disable button 
@@ -197,7 +216,7 @@ class ReminderFormContainer extends Component {
   }
   
   render() {
-    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed, validationErrors } = this.state;
+    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed, validationErrors, isModalOpen } = this.state;
     let { type } = this.props;
     
     let form = (
@@ -212,7 +231,7 @@ class ReminderFormContainer extends Component {
         onColorButtonClick={this.handleColorButtonClick}
         onColorOptionClick={this.handleColorOptionClick}
         onDeleteButtonClick={this.handleDeleteButtonClick}
-        onModalClick={this.props.onModalClick}
+        onModalClick={this.handleModalClick}
         onSaveButtonClick={(e) => { this.handleSaveButtonClick(type, e) }}
         
         onDateChange={(e) => this.handleFieldChange("date", e)}
@@ -235,7 +254,8 @@ class ReminderFormContainer extends Component {
       
     return (
       <React.Fragment>
-        {form}
+        {isModalOpen ? form : null}
+         <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button>
       </React.Fragment>
     );
   }
