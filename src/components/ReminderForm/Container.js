@@ -65,12 +65,15 @@ class ReminderFormContainer extends Component {
     
     this.handleDateBlur = this.handleDateBlur.bind(this);
     this.handleStartTimeBlur = this.handleStartTimeBlur.bind(this);
+    this.handleEndTimeBlur = this.handleEndTimeBlur.bind(this);
   }
   
   handleStartTimeBlur() {
-    let { startTime, validationErrors } = this.state; 
+    let { startTime, validationErrors, date, endTime  } = this.state; 
+    let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
+    let isoEndTime = format(`${date} ${to24hrFormat(endTime)}`);
 
-    if (isValidTime(startTime)) {
+    if (isValidTime(startTime) && isBefore(isoSetTime, isoEndTime)) {
       this.setState({
         startTime: startTime, 
         validationErrors: { ...validationErrors, startTime: false }
@@ -78,6 +81,24 @@ class ReminderFormContainer extends Component {
     } else {
       this.setState({
         validationErrors: { ...validationErrors, startTime: true }
+      });
+    }
+
+  }
+
+  handleEndTimeBlur() {
+    let { startTime, validationErrors, date, endTime  } = this.state; 
+    let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
+    let isoEndTime = format(`${date} ${to24hrFormat(endTime)}`);
+
+    if (isValidTime(endTime) && isAfter(isoEndTime, isoSetTime)) {
+      this.setState({
+        endTime: endTime, 
+        validationErrors: { ...validationErrors, endTime: false }
+      });
+    } else {
+      this.setState({
+        validationErrors: { ...validationErrors, endTime: true }
       });
     }
   }
@@ -148,7 +169,7 @@ class ReminderFormContainer extends Component {
       endTime: format(`${date} ${endTime}`),
       color: color
     }
-    
+
     if (!hasError) {
       if (type === "edit") {
         payload.id = this.props.id; 
@@ -167,7 +188,7 @@ class ReminderFormContainer extends Component {
     let { validationErrors } = this.state;
     
     for (let error in validationErrors) {
-      if (validationErrors.hasOwnProperty(error) && error) {
+      if (validationErrors.hasOwnProperty(error) && validationErrors[error]  === true) {
         return true; 
       }
     }
@@ -200,12 +221,14 @@ class ReminderFormContainer extends Component {
         onTitleChange={(e) => this.handleFieldChange("title", e)}
         
         onStartTimeBlur={this.handleStartTimeBlur}
+        onEndTimeBlur={this.handleEndTimeBlur}
         onDateBlur={this.handleDateBlur}
         
         isOptionsDisplayed={isOptionsDisplayed}
         type={type}
         
         hasStartTimeError={validationErrors.startTime}
+        hasEndTimeError={validationErrors.endTime}
         hasDateError={validationErrors.date}
         />
     );
