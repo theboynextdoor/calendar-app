@@ -170,7 +170,7 @@ class ReminderFormContainer extends Component {
       color: color
     }
 
-    if (!hasError) {
+    if (!hasError && title !== '') {
       if (type === "edit") {
         payload.id = this.props.id; 
         this.props.editReminder(payload);
