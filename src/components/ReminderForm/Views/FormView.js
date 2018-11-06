@@ -32,9 +32,10 @@ const DateInput = (props) => (
 const StartTimeInput = (props) => (
   <input 
       type="text"
-      className="input-field input-field--time"
+      className={props.hasError ? "input-field input-field--time input-field--error" : "input-field input-field--time"}
       aria-label="Enter reminder's start time"
       onChange={props.onChange}
+      onBlur={props.onBlur}
       value={props.startTime}
       required
   />  
@@ -70,7 +71,7 @@ export default function ReminderForm(props) {
           <div className="row row--center-x m-t-1 bg-gray">
             <DateInput date={props.date} onChange={props.onDateChange} onBlur={props.onDateBlur} hasError={props.hasDateError}/>
             <div className="row row--center-x w-50">
-              <StartTimeInput startTime={props.startTime} onChange={props.onStartTimeChange} />
+              <StartTimeInput startTime={props.startTime} onChange={props.onStartTimeChange} onBlur={props.onStartTimeBlur} hasError={props.hasStartTimeError}/>
               <div className="seperator">&ndash;</div>
               <EndTimeInput endTime={props.endTime} onChange={props.onEndTimeChange} />
             </div>

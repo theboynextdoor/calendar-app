@@ -10,7 +10,8 @@ import addMinutes from "date-fns/add_minutes";
 import uniqid from "uniqid";
 import isValid from "date-fns/is_valid";
 import { to24hrFormat, isValidTime } from "../../helper/validateTime";
-
+import isAfter from "date-fns/is_after";
+import isBefore from "date-fns/is_before";
 // Action creator
 import { addReminder, deleteReminder, editReminder } from "../../actions/actions.js";
 
@@ -43,7 +44,6 @@ class ReminderFormContainer extends Component {
       type: this.props.edit || "edit",
       id: this.props.id || "",
       closeForm: false,
-      error: false, 
       validationErrors: {
         date: false, 
         startTime: false, 
@@ -64,20 +64,34 @@ class ReminderFormContainer extends Component {
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
     
     this.handleDateBlur = this.handleDateBlur.bind(this);
+    this.handleStartTimeBlur = this.handleStartTimeBlur.bind(this);
+  }
+  
+  handleStartTimeBlur() {
+    let { startTime, validationErrors } = this.state; 
+
+    if (isValidTime(startTime)) {
+      this.setState({
+        startTime: startTime, 
+        validationErrors: { ...validationErrors, startTime: false }
+      });
+    } else {
+      this.setState({
+        validationErrors: { ...validationErrors, startTime: true }
+      });
+    }
   }
   
   handleDateBlur() {
     let { date, validationErrors } = this.state; 
-
+    
     if (isValid(new Date(date))) {
       this.setState({ 
         date: format(date, "MMM D, YYYY"), 
-        error: false,
         validationErrors: { ...validationErrors, date: false}
       });
     } else {
       this.setState({
-        error: true,
         validationErrors: { ...validationErrors, date: true }
       })
     }
@@ -121,6 +135,7 @@ class ReminderFormContainer extends Component {
   
   handleSaveButtonClick(type, e) {
     let { date, startTime, endTime, title, color } = this.state;
+    let hasError = this.hasError(); 
     
     date = format(date, "YYYY-MM-DD"); 
     startTime = to24hrFormat(startTime);
@@ -134,15 +149,30 @@ class ReminderFormContainer extends Component {
       color: color
     }
     
-    if (type === "edit") {
-      payload.id = this.props.id; 
-      this.props.editReminder(payload);
-    } else {
-      payload.id = uniqid("r-");
-      this.props.addReminder(payload);
+    if (!hasError) {
+      if (type === "edit") {
+        payload.id = this.props.id; 
+        this.props.editReminder(payload);
+      } else {
+        payload.id = uniqid("r-");
+        this.props.addReminder(payload);
+      }
     }
     
+    // disable button 
     // close modal
+  }
+  
+  hasError() {
+    let { validationErrors } = this.state;
+    
+    for (let error in validationErrors) {
+      if (validationErrors.hasOwnProperty(error) && error) {
+        return true; 
+      }
+    }
+    
+    return false; 
   }
   
   render() {
@@ -169,11 +199,13 @@ class ReminderFormContainer extends Component {
         onStartTimeChange={(e) => this.handleFieldChange("startTime", e)}
         onTitleChange={(e) => this.handleFieldChange("title", e)}
         
+        onStartTimeBlur={this.handleStartTimeBlur}
         onDateBlur={this.handleDateBlur}
         
         isOptionsDisplayed={isOptionsDisplayed}
         type={type}
         
+        hasStartTimeError={validationErrors.startTime}
         hasDateError={validationErrors.date}
         />
     );
