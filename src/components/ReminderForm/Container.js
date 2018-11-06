@@ -7,11 +7,14 @@ import ReminderForm from "./Views/FormView";
 // Utils
 import format from "date-fns/format";
 import addMinutes from "date-fns/add_minutes";
-import uniqid from "uniqid";
 import isValid from "date-fns/is_valid";
-import { to24hrFormat, isValidTime } from "../../helper/validateTime";
 import isAfter from "date-fns/is_after";
 import isBefore from "date-fns/is_before";
+import addHours from "date-fns/add_hours";
+
+import roundToNearestMinutes from "../../helper/roundToNearestMinutes";
+import { to24hrFormat, isValidTime } from "../../helper/validateTime";
+import uniqid from "uniqid";
 // Action creator
 import { addReminder, deleteReminder, editReminder } from "../../actions/actions.js";
 
@@ -27,12 +30,12 @@ class ReminderFormContainer extends Component {
     super(props);
     
     // this is a private variable for the current date 
-    let now = new Date(); 
+    let now = roundToNearestMinutes(new Date(), 30); 
     
     let title = this.props.title || ""; 
     let date = this.props.date || now; 
     let startTime = this.props.startTime || now;
-    let endTime = this.props.endTime || addMinutes(now, 30);
+    let endTime = this.props.endTime || addHours(now, 1);
     
     this.state = {
       title: title, 
