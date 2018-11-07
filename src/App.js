@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 
 // Internal Components
 import Calendar from "./components/Calendar"; 
@@ -12,10 +11,6 @@ import "./App.css";
 import "./logo.svg";
 
 class App extends Component { 
-  constructor(props) {
-    super(props);
-  }
-  
   render() {
     return (
       <Calendar />

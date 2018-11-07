@@ -6,17 +6,17 @@ import ReminderForm from "./Views/FormView";
 
 // Utils
 import format from "date-fns/format";
-import addMinutes from "date-fns/add_minutes";
 import isValid from "date-fns/is_valid";
 import isAfter from "date-fns/is_after";
 import isBefore from "date-fns/is_before";
 import addHours from "date-fns/add_hours";
 
 import roundToNearestMinutes from "../../helper/roundToNearestMinutes";
+import hasError from "../../helper/hasError";
 import { to24hrFormat, isValidTime } from "../../helper/validateTime";
 import uniqid from "uniqid";
 // Action creator
-import { addReminder, deleteReminder, editReminder } from "../../actions/actions.js";
+import { addReminder, deleteReminder, editReminder, closeReminderForm, openReminderForm } from "../../actions/actions.js";
 
 // TODO:
 // 1. Round all time to the nearest half hour, unless user specifically change the value. [x]
@@ -51,7 +51,6 @@ class ReminderFormContainer extends Component {
         startTime: false, 
         endTime: false
       },
-      showModal: this.props.showModal || false, 
       colorOptions: [
         { hex: "#ff6347", name: "Tomato"},
         { hex: "#fc8eac", name: "Flamingo"},
@@ -69,20 +68,11 @@ class ReminderFormContainer extends Component {
     this.handleDateBlur = this.handleDateBlur.bind(this);
     this.handleStartTimeBlur = this.handleStartTimeBlur.bind(this);
     this.handleEndTimeBlur = this.handleEndTimeBlur.bind(this);
-    this.handleReminderButtonClick = this.handleReminderButtonClick.bind(this);
     this.handleModalClick = this.handleModalClick.bind(this);
   }
   
   handleModalClick() {
-    this.setState({
-      showModal: false
-    });  
-  }
-  
-  handleReminderButtonClick() {
-    this.setState({
-      showModal: true
-    });
+    this.props.closeReminderForm();
   }
   
   handleStartTimeBlur() {
@@ -172,8 +162,7 @@ class ReminderFormContainer extends Component {
   }
   
   handleSaveButtonClick(type, e) {
-    let { date, startTime, endTime, title, color } = this.state;
-    let hasError = this.hasError(); 
+    let { date, startTime, endTime, title, color, validationErrors } = this.state;
     
     date = format(date, "YYYY-MM-DD"); 
     startTime = to24hrFormat(startTime);
@@ -187,8 +176,7 @@ class ReminderFormContainer extends Component {
       color: color
     }
 
-    if (!hasError && title !== '') {
-      
+    if (!hasError(validationErrors) && title !== '') {
       if (type === "edit") {
         payload.id = this.props.id; 
         this.props.editReminder(payload);
@@ -197,30 +185,13 @@ class ReminderFormContainer extends Component {
         this.props.addReminder(payload);
       }
       
-      this.setState({
-        showModal: false
-      });
+      this.props.closeReminderForm();
     }
-    
-    // disable button 
-    // close modal
-  }
-  
-  hasError() {
-    let { validationErrors } = this.state;
-    
-    for (let error in validationErrors) {
-      if (validationErrors.hasOwnProperty(error) && validationErrors[error]  === true) {
-        return true; 
-      }
-    }
-    
-    return false; 
   }
   
   render() {
-    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed, validationErrors, showModal } = this.state;
-    let { type } = this.props;
+    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed, validationErrors } = this.state;
+    let { type, showReminderForm } = this.props;
     
     let form = (
       <ReminderForm
@@ -253,20 +224,24 @@ class ReminderFormContainer extends Component {
         hasEndTimeError={validationErrors.endTime}
         hasDateError={validationErrors.date}
 
-        showModal={showModal}
+        showModal={showReminderForm}
       />
     );
       
     return (
       <React.Fragment>
         {form}
-        <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button> 
       </React.Fragment>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    showReminderForm: state.showReminderForm
+  }
+}
 export default connect(
-  null,
-  { addReminder, deleteReminder, editReminder }
+  mapStateToProps,
+  { addReminder, deleteReminder, editReminder, closeReminderForm, openReminderForm }
 )(ReminderFormContainer);

@@ -3,16 +3,12 @@ import {
     EDIT_REMINDER, 
     DELETE_REMINDER, 
     ExpansionFilters,
-    SET_CALENDAR_EXPANSION
+    SET_CALENDAR_EXPANSION,
+    CLOSE_REMINDER_FORM,
+    OPEN_REMINDER_FORM
 } from '../actions/actions.js';
 
 import { combineReducers } from 'redux';
-
-const initialState = {
-    expansionFilters: ExpansionFilters.BY_MONTH,
-    days: {},
-    reminders: {}
-};
 
 // Private Functions
 function _addReminderForDays(state = {}, action) {
@@ -52,8 +48,7 @@ function _editReminderForReminders(state = {}, action) {
     if (!state.hasOwnProperty(reminder.id)) {
         return state; 
     }
-
-    var reminder = action.reminder; 
+    
     var editedReminder = Object.assign({}, state[reminder.id], reminder); 
     
     return Object.assign({}, state, {
@@ -113,6 +108,16 @@ export function days(state = {}, action) {
     }
 }
 
+export function showReminderForm(state = false, action) {
+    switch(action.type) {
+        case CLOSE_REMINDER_FORM: 
+            return false;
+        case OPEN_REMINDER_FORM:
+            return true;
+        default:
+            return state;
+    }
+}
 export function expansionFilter(state = "BY_MONTH", action) {
     switch(action.type) {
         case SET_CALENDAR_EXPANSION:
@@ -126,7 +131,8 @@ export function expansionFilter(state = "BY_MONTH", action) {
 const calendarApp = combineReducers({
     expansionFilter, 
     days,
-    reminders
+    reminders,
+    showReminderForm
 });
 
 export default calendarApp; 

@@ -9,6 +9,8 @@ import Weeks from "./Views/Weeks";
 
 import format from "date-fns/format";
 
+import { openReminderForm } from "../../actions/actions.js";
+
 // TODO 
 // 1. Reminder form doesn't display
 // 2. Remove form from view once clicking the "SAVE" button. 
@@ -16,16 +18,38 @@ import format from "date-fns/format";
 class Calendar extends Component {
   constructor(props) {
     super(props);
-    
     this.state = {
-      showModal: false
+      title: "", 
+      startTime: "", 
+      endTime: "",
+      date: "",
+      id: "",
+      color: "",
+      showModal: false,
+      type: "add"
     }
     
     this.handleReminderClick = this.handleReminderClick.bind(this);
     this.getRemindersFromDay = this.getRemindersFromDay.bind(this);
+    this.handleReminderButtonClick = this.handleReminderButtonClick.bind(this);
+
   }
   
   /** Handlers **/
+  
+  handleReminderButtonClick() {
+    this.setState({
+      title: "", 
+      id: "", 
+      startTime: "",
+      endTime: "", 
+      date: "", 
+      color: "",
+      type: "add"
+    });
+    
+    this.props.openReminderForm();
+  }
   
   handleReminderClick(event, id) {
     let reminder = this.getReminder(id); 
@@ -36,8 +60,11 @@ class Calendar extends Component {
       startTime: reminder.startTime, 
       endTime: reminder.endTime,
       date: reminder.date,
-      color: reminder.color
+      color: reminder.color,
+      type: "edit"
     });
+    
+    this.props.openReminderForm(); 
   }
   
   /** Getters **/
@@ -58,22 +85,7 @@ class Calendar extends Component {
       return reminders[reminder];
     });
   }
-  
-  renderReminderForm() {
-   return (
-    <ReminderForm 
-      type="edit"
-      title={this.state.title}
-      startTime={this.state.startTime}
-      endTime={this.state.endTime}
-      date={this.state.date}
-      id={this.state.id}
-      color={this.state.color}
-      showModal={this.showModal}
-    />
-    ) 
-  }
-  
+
   render() {
     let dates = Object.keys(this.props.days); 
     
@@ -87,7 +99,16 @@ class Calendar extends Component {
           onClick={this.handleReminderClick} 
           getReminders={this.getRemindersFromDay}
         />
-        <ReminderForm />
+        <ReminderForm 
+          type={this.state.type}
+          title={this.state.title}
+          startTime={this.state.startTime}
+          endTime={this.state.endTime}
+          date={this.state.date}
+          id={this.state.id}
+          color={this.state.color}
+        />
+        <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button> 
       </div>
       </div>
     ); 
@@ -97,8 +118,9 @@ class Calendar extends Component {
 const mapStateToProps = state => {
   return {
     days: state.days, 
-    reminders: state.reminders
+    reminders: state.reminders,
+    showReminder: state.showReminder
   }
 }
 
-export default connect(mapStateToProps)(Calendar);
+export default connect(mapStateToProps, {openReminderForm})(Calendar);
