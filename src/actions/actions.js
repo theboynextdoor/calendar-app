@@ -5,11 +5,25 @@ export const EDIT_REMINDER = 'EDIT_REMINDER';
 export const DELETE_REMINDER = 'DELETE_REMINDER'; 
 export const ADD_REMINDER = 'ADD_REMINDER'; 
 export const SET_CALENDAR_EXPANSION = 'SET_CALENDAR_EXPANSION'; 
+export const OPEN_REMINDER_FORM = 'OPEN_REMINDER_FORM';
+export const CLOSE_REMINDER_FORM = 'CLOSE_REMINDER_FORM';
 
 // filter constants
 export const ExpansionFilters = {
     BY_YEAR: 'BY_YEAR',
     BY_MONTH: 'BY_MONTH'
+}
+
+export function closeReminderForm() {
+    return {
+        type: CLOSE_REMINDER_FORM
+    }
+}
+
+export function openReminderForm() {
+    return {
+        type: OPEN_REMINDER_FORM
+    }
 }
 
 // action creators - functions that create action

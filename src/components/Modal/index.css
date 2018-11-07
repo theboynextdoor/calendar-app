@@ -1,4 +1,23 @@
 .modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.modal__background {
+    background-color: rgba(0, 0, 0, 0.38);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;   
+}
+
+.modal__content {
     background: #ffffff;
     border-radius: 3px;
     box-sizing: border-box;
@@ -10,7 +29,7 @@
     justify-content: space-between; 
 }
 
-.modal--close {
+.modal__close-btn {
     background-color: transparent;
     border-width: 0;
     cursor: pointer;
@@ -18,4 +37,8 @@
     position: absolute;
     right: 1rem;
     top: .4rem;
+}
+
+.modal--hidden {
+    display: none !important; 
 }

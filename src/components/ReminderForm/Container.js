@@ -51,7 +51,7 @@ class ReminderFormContainer extends Component {
         startTime: false, 
         endTime: false
       },
-      isModalOpen: this.props.isModalOpen || false, 
+      showModal: this.props.showModal || false, 
       colorOptions: [
         { hex: "#ff6347", name: "Tomato"},
         { hex: "#fc8eac", name: "Flamingo"},
@@ -75,15 +75,16 @@ class ReminderFormContainer extends Component {
   
   handleModalClick() {
     this.setState({
-      isModalOpen: false
+      showModal: false
     });  
   }
   
   handleReminderButtonClick() {
     this.setState({
-      isModalOpen: true
+      showModal: true
     });
   }
+  
   handleStartTimeBlur() {
     let { startTime, validationErrors, date, endTime  } = this.state; 
     let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
@@ -197,7 +198,7 @@ class ReminderFormContainer extends Component {
       }
       
       this.setState({
-        isModalOpen: false
+        showModal: false
       });
     }
     
@@ -218,7 +219,7 @@ class ReminderFormContainer extends Component {
   }
   
   render() {
-    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed, validationErrors, isModalOpen } = this.state;
+    let { title, date, startTime, endTime, colorOptions, color, isOptionsDisplayed, validationErrors, showModal } = this.state;
     let { type } = this.props;
     
     let form = (
@@ -251,12 +252,14 @@ class ReminderFormContainer extends Component {
         hasStartTimeError={validationErrors.startTime}
         hasEndTimeError={validationErrors.endTime}
         hasDateError={validationErrors.date}
-        />
+
+        showModal={showModal}
+      />
     );
       
     return (
       <React.Fragment>
-        {isModalOpen ? form : null}
+        {form}
         <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button> 
       </React.Fragment>
     );

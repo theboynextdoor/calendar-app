@@ -18,7 +18,7 @@ class Calendar extends Component {
     super(props);
     
     this.state = {
-    
+      showModal: false
     }
     
     this.handleReminderClick = this.handleReminderClick.bind(this);
@@ -31,7 +31,6 @@ class Calendar extends Component {
     let reminder = this.getReminder(id); 
     
     this.setState({
-      isModalOpen: true,
       title: reminder.title,
       id: reminder.id, 
       startTime: reminder.startTime, 
@@ -63,14 +62,14 @@ class Calendar extends Component {
   renderReminderForm() {
    return (
     <ReminderForm 
-        type="edit"
-        title={this.state.title}
-        startTime={this.state.startTime}
-        endTime={this.state.endTime}
-        date={this.state.date}
-        id={this.state.id}
-        color={this.state.color}
-        isModalOpen={this.state.isModalOpen}
+      type="edit"
+      title={this.state.title}
+      startTime={this.state.startTime}
+      endTime={this.state.endTime}
+      date={this.state.date}
+      id={this.state.id}
+      color={this.state.color}
+      showModal={this.showModal}
     />
     ) 
   }
