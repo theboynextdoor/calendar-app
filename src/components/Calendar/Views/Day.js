@@ -17,9 +17,5 @@ Day.propTypes = {
     day: PropTypes.string
 };
 
-Day.defaultProps = {
-    style: {},
-    reminder: {}
-};
 
 export default Day; 

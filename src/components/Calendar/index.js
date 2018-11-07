@@ -8,6 +8,9 @@ import Header from "./Views/Header";
 import Weeks from "./Views/Weeks";
 
 import format from "date-fns/format";
+import eachDay from "date-fns/each_day";
+import startOfMonth from "date-fns/start_of_month";
+import lastDayOfMonth from "date-fns/last_day_of_month";
 
 import { openReminderForm } from "../../actions/actions.js";
 
@@ -36,15 +39,8 @@ class Calendar extends Component {
   }
   
   /** Handlers **/
-  
   handleReminderButtonClick() {
     this.setState({
-      title: "", 
-      id: "", 
-      startTime: "",
-      endTime: "", 
-      date: "", 
-      color: "",
       type: "add"
     });
     
@@ -85,17 +81,20 @@ class Calendar extends Component {
       return reminders[reminder];
     });
   }
-
+  
+  getDatesInMonth(month) {
+    let dates = eachDay(startOfMonth(month), lastDayOfMonth(month)); 
+    return dates.map((date) => format(date, "YYYY-MM-DD"));
+  }
+  
   render() {
-    let dates = Object.keys(this.props.days); 
+    let specifiedMonth = this.getDatesInMonth(this.props.month);
     
     return (
-      <div className="container">
-      <MastHead title={format(dates[0], "MMMM GGGG")} />
       <div className="calendar">
         <Header />
         <Weeks 
-          dates={dates} 
+          dates={specifiedMonth} 
           onClick={this.handleReminderClick} 
           getReminders={this.getRemindersFromDay}
         />
@@ -109,7 +108,6 @@ class Calendar extends Component {
           color={this.state.color}
         />
         <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button> 
-      </div>
       </div>
     ); 
   }

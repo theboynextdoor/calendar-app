@@ -1,6 +1,7 @@
-import eachDay from 'date-fns/each_day';
-import lastDayOfMonth from 'date-fns/last_day_of_month';
-import format from 'date-fns/format'
+import eachDay from "date-fns/each_day";
+import lastDayOfMonth from "date-fns/last_day_of_month";
+import format from "date-fns/format"
+import addYears from "date-fns/add_years";
 
 // private method 
 function firstDay(date) {
@@ -10,7 +11,7 @@ function firstDay(date) {
 
 function initState(date) {
     return {
-        expansionFilter: 'BY_MONTH',
+        expansionFilter: "BY_MONTH",
         days: initDays(date), 
         reminders: {},
         showReminderForm: false
@@ -18,8 +19,8 @@ function initState(date) {
 }
 
 export function initDays(date) {
-    var dates = eachDay(firstDay(date), lastDayOfMonth(date));
-    var dateFormat = 'YYYY-MM-DD';
+    var dates = eachDay(firstDay(date), addYears(date, 1));
+    var dateFormat = "YYYY-MM-DD";
     var days = {}; 
     
     dates.forEach((date) => {
