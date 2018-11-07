@@ -153,6 +153,7 @@ class ReminderFormContainer extends Component {
     });
     
     // close modal
+    this.props.closeReminderForm();
   }
   
   handleFieldChange(state, e) {
