@@ -38,7 +38,7 @@ Validate user input when creating a reminder
 ## State 
 
 ### Reminder's state stored inside Redux
-![Reminder State](reminder_state.jpg)
+![Reminder State](reminders_state.jpg)
 
 ### Day's state stored inside Redux
 ![Day State](day_state2.jpg)
