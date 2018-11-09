@@ -9,7 +9,7 @@ Side note: My app is heavily influenced by Google's Calendar App, and I have no 
 to pay homage to their app. 
 
 
-![Calendar](calendar.png)
+![Calendar](screenshots/calendar.png)
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ Validate user input when creating a reminder
 ## State 
 
 ### Reminder's state stored inside Redux
-![Reminder State](screenshots/reminders_state.jpg)
+![Reminder State](screenshots/reminder_state.jpg)
 
 ### Day's state stored inside Redux
 ![Day State](screenshots/day_state2.jpg)

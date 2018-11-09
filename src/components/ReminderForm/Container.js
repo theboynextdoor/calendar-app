@@ -14,6 +14,7 @@ import addHours from "date-fns/add_hours";
 import roundToNearestMinutes from "../../helper/roundToNearestMinutes";
 import hasError from "../../helper/hasError";
 import { to24hrFormat, isValidTime } from "../../helper/validateTime";
+import withinCharLimit from "../../helper/withinCharLimit";
 import uniqid from "uniqid";
 // Action creator
 import { addReminder, deleteReminder, editReminder, closeReminderForm, openReminderForm } from "../../actions/actions.js";
@@ -69,12 +70,30 @@ class ReminderFormContainer extends Component {
     this.handleStartTimeBlur = this.handleStartTimeBlur.bind(this);
     this.handleEndTimeBlur = this.handleEndTimeBlur.bind(this);
     this.handleModalClick = this.handleModalClick.bind(this);
+    this.handleTitleBlur = this.handleTitleBlur.bind(this);
   }
   
   handleModalClick() {
     this.props.closeReminderForm();
   }
   
+  handleTitleBlur() {
+    let { title, validationErrors } = this.state; 
+    let minLimit = 1; 
+    let maxLimit = 30; 
+    
+    if (withinCharLimit(title, maxLimit, minLimit)) {
+      this.setState({
+        title: title, 
+        validationErrors: { ...validationErrors, title: false}
+      })
+    } else {
+      this.setState({
+        validationErrors: {...validationErrors, title: true }
+      })
+    } 
+    
+  }
   handleStartTimeBlur() {
     let { startTime, validationErrors, date, endTime  } = this.state; 
     let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
@@ -217,6 +236,7 @@ class ReminderFormContainer extends Component {
         onStartTimeBlur={this.handleStartTimeBlur}
         onEndTimeBlur={this.handleEndTimeBlur}
         onDateBlur={this.handleDateBlur}
+        onTitleBlur={this.handleTitleBlur}
         
         isOptionsDisplayed={isOptionsDisplayed}
         type={type}
@@ -224,7 +244,8 @@ class ReminderFormContainer extends Component {
         hasStartTimeError={validationErrors.startTime}
         hasEndTimeError={validationErrors.endTime}
         hasDateError={validationErrors.date}
-
+        hasTitleError={validationErrors.title}
+        
         showModal={showReminderForm}
       />
     );

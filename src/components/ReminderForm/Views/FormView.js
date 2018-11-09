@@ -13,11 +13,12 @@ export default function ReminderForm(props) {
         <div className="row m-t-1">
           <input 
             type="text" 
-            className="input-field input-field--title" 
+            className={props.hasTitleError ? "input-field input-field--title input-field--error" : "input-field input-field--title" } 
             placeholder="Add Title" 
             aria-label="Enter title here"
             value={props.title}
             onChange={props.onTitleChange}
+            onBlur={props.onTitleBlur}
             required
           /> 
           <ColorPicker 
