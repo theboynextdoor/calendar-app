@@ -38,18 +38,18 @@ Validate user input when creating a reminder
 ## State 
 
 ### Reminder's state stored inside Redux
-![Reminder State](reminders_state.jpg)
+![Reminder State](screenshots/reminders_state.jpg)
 
 ### Day's state stored inside Redux
-![Day State](day_state2.jpg)
-![Day State](day_state.jpg)
+![Day State](screenshots/day_state2.jpg)
+![Day State](screenshots/day_state.jpg)
 
 ## Built With
 
-[React JS](https://reactjs.org/)
-[Redux](https://redux.js.org)
-[Uniqid](https://www.npmjs.com/package/uniqid)
-[date-fns](https://date-fns.org/)
-[React Redux](https://react-redux.js.org/)
-[Webpack](https://webpack.js.org)
-[Babel](https://babeljs.io)
+* [React JS](https://reactjs.org/)
+* [Redux](https://redux.js.org)
+* [Uniqid](https://www.npmjs.com/package/uniqid)
+* [date-fns](https://date-fns.org/)
+* [React Redux](https://react-redux.js.org/)
+* [Webpack](https://webpack.js.org)
+* [Babel](https://babeljs.io)
