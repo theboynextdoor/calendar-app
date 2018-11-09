@@ -80,7 +80,7 @@ class ReminderFormContainer extends Component {
     let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
     let isoEndTime = format(`${date} ${to24hrFormat(endTime)}`);
 
-    if (isValidTime(startTime) && isBefore(isoSetTime, isoEndTime)) {
+    if (isValidTime(startTime)) {
       this.setState({
         startTime: startTime, 
         validationErrors: { ...validationErrors, startTime: false }
@@ -98,7 +98,7 @@ class ReminderFormContainer extends Component {
     let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
     let isoEndTime = format(`${date} ${to24hrFormat(endTime)}`);
 
-    if (isValidTime(endTime) && isAfter(isoEndTime, isoSetTime)) {
+    if (isValidTime(endTime)) {
       this.setState({
         endTime: endTime, 
         validationErrors: { ...validationErrors, endTime: false }
