@@ -25,16 +25,24 @@ to pay homage to their app.
 5. Navigate to app in [browser](http://localhost3000)
 
 ## Feature Requirements
-Ability to add a new "reminder" (max 30 chars) for a user entered day and time
-Display reminders on the calendar view in the correct time order
-Allow the user to select a colour when creating a reminder and display it appropriately
-Properly handle overflow when multiple reminders appear on the same date
-Ability to edit reminders – including changing text, day and time & colour
-Ability to delete reminders
+*Ability to add a new "reminder" (max 30 chars) for a user entered day and time
+*Display reminders on the calendar view in the correct time order
+*Allow the user to select a colour when creating a reminder and display it appropriately
+*Properly handle overflow when multiple reminders appear on the same date
+*Ability to edit reminders – including changing text, day and time & colour
+*Ability to delete reminders
 
 ## Bonus Features 
 Validate user input when creating a reminder
 
+## State 
+
+### Reminder's state stored inside Redux
+![Reminder State](reminder_state.jpg)
+
+### Day's state stored inside Redux
+![Day State](day_state2.jpg)
+![Day State](day_state.jpg)
 
 ## Built With
 
