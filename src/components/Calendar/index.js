@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import ReminderForm from "../ReminderForm/Container";
 
 // Components
-import MastHead from "../MastHead";
 import Header from "./Views/Header";
 import Weeks from "./Views/Weeks";
 
@@ -11,6 +10,8 @@ import format from "date-fns/format";
 import eachDay from "date-fns/each_day";
 import startOfMonth from "date-fns/start_of_month";
 import lastDayOfMonth from "date-fns/last_day_of_month";
+import startOfWeek from "date-fns/start_of_week";
+import lastDayOfWeek from "date-fns/last_day_of_week";
 
 import { openReminderForm } from "../../actions/actions.js";
 
@@ -83,7 +84,7 @@ class Calendar extends Component {
   }
   
   getDatesInMonth(month) {
-    let dates = eachDay(startOfMonth(month), lastDayOfMonth(month)); 
+    let dates = eachDay(startOfWeek(startOfMonth(month)), lastDayOfWeek(lastDayOfMonth(month))); 
     return dates.map((date) => format(date, "YYYY-MM-DD"));
   }
   
@@ -107,7 +108,13 @@ class Calendar extends Component {
           id={this.state.id}
           color={this.state.color}
         />
-        <button className="btn bg-red btn--round btn--float" onClick={this.handleReminderButtonClick}>Add Reminder</button> 
+        <button 
+          className="btn bg-red btn--round btn--float" 
+          onClick={this.handleReminderButtonClick} 
+          title="Create Reminder" 
+          aria-label="Create Reminder">
+          <i className="fas fa-plus"></i>
+        </button> 
       </div>
     ); 
   }

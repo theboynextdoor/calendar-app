@@ -4,6 +4,7 @@
     color: #333;
     height: 148px;
     line-height: 2em;
+    overflow-y: auto;
     width: 14.2857143%;
 }
 

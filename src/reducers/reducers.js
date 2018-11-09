@@ -2,13 +2,11 @@ import {
     ADD_REMINDER, 
     EDIT_REMINDER, 
     DELETE_REMINDER, 
-    ExpansionFilters,
-    SET_CALENDAR_EXPANSION,
     CLOSE_REMINDER_FORM,
     OPEN_REMINDER_FORM
-} from '../actions/actions.js';
+} from "../actions/actions.js";
 
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 // Private Functions
 function _addReminderForDays(state = {}, action) {
@@ -118,18 +116,9 @@ export function showReminderForm(state = false, action) {
             return state;
     }
 }
-export function expansionFilter(state = "BY_MONTH", action) {
-    switch(action.type) {
-        case SET_CALENDAR_EXPANSION:
-            return action.expansion;
-        default: 
-            return state; 
-    }
-}
 
 
 const calendarApp = combineReducers({
-    expansionFilter, 
     days,
     reminders,
     showReminderForm

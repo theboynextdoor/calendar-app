@@ -20,7 +20,7 @@ import { addReminder, deleteReminder, editReminder, closeReminderForm, openRemin
 
 // TODO:
 // 1. Round all time to the nearest half hour, unless user specifically change the value. [x]
-// 2. endTime's time cannot be before startTime on the same date, e.g. date = Dec 10, 2018 endTime = 10:30am startTime = 11:30am [x]
+// 2. endTime"s time cannot be before startTime on the same date, e.g. date = Dec 10, 2018 endTime = 10:30am startTime = 11:30am [x]
 // 3. Validate if user is inputing correct time format, e.g. if user inputs 8:30zm indicate their is an error
 // 4. Reformat user date input to the correct format, e.g. user inputs "December 31, 2018" => "Dec 31, 2018" :D 
 
@@ -177,7 +177,7 @@ class ReminderFormContainer extends Component {
       color: color
     }
 
-    if (!hasError(validationErrors) && title !== '') {
+    if (!hasError(validationErrors) && title !== "") {
       if (type === "edit") {
         payload.id = this.props.id; 
         this.props.editReminder(payload);

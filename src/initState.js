@@ -1,7 +1,7 @@
 import eachDay from "date-fns/each_day";
-import lastDayOfMonth from "date-fns/last_day_of_month";
 import format from "date-fns/format"
 import addYears from "date-fns/add_years";
+import subMonths from "date-fns/sub_months";
 
 // private method 
 function firstDay(date) {
@@ -19,7 +19,7 @@ function initState(date) {
 }
 
 export function initDays(date) {
-    var dates = eachDay(firstDay(date), addYears(date, 1));
+    var dates = eachDay(firstDay(subMonths(date, 2)), addYears(date, 1.5));
     var dateFormat = "YYYY-MM-DD";
     var days = {}; 
     

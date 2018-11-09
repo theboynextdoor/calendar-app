@@ -1,7 +1,7 @@
-import React from 'react'; 
-import './index.css';
+import React from "react"; 
+import "./index.css";
 
-function Modal(props) {
+export default function Modal(props) {
     return (
         <div className={props.showModal ? "modal center-x-y" : "modal modal--hidden center-x-y"}>
             <div className="modal__background"></div>
@@ -16,5 +16,3 @@ function Modal(props) {
         </div>
     );
 }
-
-export default Modal;

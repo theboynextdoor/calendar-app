@@ -1,6 +1,6 @@
-import isSameWeek from 'date-fns/is_same_week'; 
-import lastDayOfWeek from 'date-fns/last_day_of_week';
-import isEqual from 'date-fns/is_equal';
+import isSameWeek from "date-fns/is_same_week"; 
+import lastDayOfWeek from "date-fns/last_day_of_week";
+import isEqual from "date-fns/is_equal";
 import getDay from "date-fns/get_day";
 
 function toWeeks(days) {

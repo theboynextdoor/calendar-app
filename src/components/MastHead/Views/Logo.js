@@ -1,8 +1,10 @@
-import React from 'react';
+import React from "react";
+
+import "./logo.css";
 
 //https://www.gstatic.com/images/branding/product/1x/calendar_48dp.png"
-function Logo({ src, text, alt}) {
-    let titleElement = (text !== '') ? <h1 className="logo__text">{text}</h1> : null; 
+export default function Logo({ src, text, alt}) {
+    let titleElement = (text !== "") ? <h1 className="logo__text">{text}</h1> : null; 
     
     return (
         <div className="logo">
@@ -11,5 +13,3 @@ function Logo({ src, text, alt}) {
         </div>
     );
 }
-
-export default Logo; 

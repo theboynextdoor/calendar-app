@@ -1,8 +1,8 @@
-import React from 'react';
-import format from 'date-fns/format';
-import './style.css';
+import React from "react";
+import format from "date-fns/format";
+import "./style.css";
 
-function Reminder(props) {
+export default function Reminder(props) {
     return(
         <div 
             role="button" 
@@ -18,5 +18,3 @@ function Reminder(props) {
         </div>
     ); 
 }
-
-export default Reminder; 

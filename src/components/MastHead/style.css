@@ -1,34 +1,14 @@
-.logo {
-    display: flex;
-    align-items: center;
-    margin-left: 1em;
-}
-
-.logo__img {
-    height: 40px;
-    width: 40px;
-}
-
-.logo__text {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    color: #666666;
-    margin: 0;
-    margin-left: 1rem;
-    font-size: 1.6em;
-}
-
 .masthead {
     display: flex;
     border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 1em;
-    padding-top: 1em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
     align-items: center;
 }
 
 .masthead__title {
     color: #666;
     margin: 0; 
-    font-size: 1.6em;
+    font-size: 1.25rem;
     font-weight: 400;
 }
