@@ -13,9 +13,12 @@ import addHours from "date-fns/add_hours";
 
 import roundToNearestMinutes from "../../helper/roundToNearestMinutes";
 import hasError from "../../helper/hasError";
-import { to24hrFormat, isValidTime } from "../../helper/validateTime";
+import isValidTime from "../../helper/isValidTime";
+import { to24hrFormat } from "../../helper/validateTime";
 import withinCharLimit from "../../helper/withinCharLimit";
 import uniqid from "uniqid";
+import mergeTimeToDate from "../../helper/mergeTimeToDate";
+
 // Action creator
 import { addReminder, deleteReminder, editReminder, closeReminderForm, openReminderForm } from "../../actions/actions.js";
 
@@ -96,10 +99,11 @@ class ReminderFormContainer extends Component {
   }
   handleStartTimeBlur() {
     let { startTime, validationErrors, date, endTime  } = this.state; 
-    let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
-    let isoEndTime = format(`${date} ${to24hrFormat(endTime)}`);
-
-    if (isValidTime(startTime)) {
+  
+    let startDate = mergeTimeToDate(startTime, date); 
+    let endDate = mergeTimeToDate(endTime, date);
+    
+    if (isValidTime(startTime) && isBefore(startDate, endDate)) {
       this.setState({
         startTime: startTime, 
         validationErrors: { ...validationErrors, startTime: false }
@@ -114,14 +118,17 @@ class ReminderFormContainer extends Component {
 
   handleEndTimeBlur() {
     let { startTime, validationErrors, date, endTime  } = this.state; 
-    let isoSetTime = format(`${date} ${to24hrFormat(startTime)}`);
-    let isoEndTime = format(`${date} ${to24hrFormat(endTime)}`);
 
-    if (isValidTime(endTime)) {
+    let startDate = mergeTimeToDate(startTime, date); 
+    let endDate = mergeTimeToDate(endTime, date);
+    
+    if (isValidTime(endTime) && isAfter(endDate, startDate)) {
+      
       this.setState({
         endTime: endTime, 
         validationErrors: { ...validationErrors, endTime: false }
       });
+      
     } else {
       this.setState({
         validationErrors: { ...validationErrors, endTime: true }
@@ -185,14 +192,14 @@ class ReminderFormContainer extends Component {
     let { date, startTime, endTime, title, color, validationErrors } = this.state;
     
     date = format(date, "YYYY-MM-DD"); 
-    startTime = to24hrFormat(startTime);
-    endTime = to24hrFormat(endTime);
+    let startDate = mergeTimeToDate(startTime, date);
+    let endDate = mergeTimeToDate(endTime, date);
     
     let payload = {
       title: title,
       date: date,
-      startTime: format(`${date} ${startTime}`),
-      endTime: format(`${date} ${endTime}`),
+      startTime: startDate,
+      endTime: endDate,
       color: color
     }
 
