@@ -8,6 +8,8 @@ import MastHead from "./components/MastHead";
 import subMonths from "date-fns/sub_months";
 import addMonths from "date-fns/add_months";
 import format from "date-fns/format";
+import isSameMonth from "date-fns/is_same_month";
+import isSameYear from "date-fns/is_same_year";
 
 // CSS
 import "./util.css";
@@ -32,18 +34,28 @@ class App extends Component {
   
   handlePrevButtonClick() {
     let previousMonth = subMonths(this.state.month, 1); 
-
-    this.setState({
-      month: previousMonth
-    });
-
+    let firstMonth = Object.keys(this.props.days)[0];
+    
+    if (!isSameMonth(firstMonth, previousMonth)) {
+      this.setState({
+        month: previousMonth
+      });
+    }
   }
   
   handleNextButtonClick() {
+    let nextMonth = addMonths(this.state.month, 1); 
+    let dates = Object.keys(this.props.days);
+    
+    let lastMonth = dates[dates.length - 1]; 
+
     // check to make sure that the month doesn't exceed the last month
-    this.setState({
-      month: addMonths(this.state.month, 1)
-    });
+    if (!isSameMonth(lastMonth, nextMonth) && !isSameYear(lastMonth, nextMonth) ) {
+      this.setState({
+        month: nextMonth
+      });
+    }
+    
   }
   
   render() {
